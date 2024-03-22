@@ -1,6 +1,5 @@
 package enjoying.service.impl;
 
-import enjoying.config.jwt.JwtService;
 import enjoying.entities.User;
 import enjoying.enums.Role;
 import enjoying.repositories.UserRepository;
@@ -36,7 +35,6 @@ public class CurrentUser {
     public User getCurrenUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepo.getByEmail(email);
-
     }
 
 
