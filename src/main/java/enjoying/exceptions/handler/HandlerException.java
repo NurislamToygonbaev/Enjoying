@@ -1,4 +1,4 @@
-package restaurant.exceptions.handler;
+package enjoying.exceptions.handler;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -8,16 +8,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
-import restaurant.exceptions.AlreadyExistsException;
-import restaurant.exceptions.ForbiddenException;
-import restaurant.exceptions.NotFoundException;
-import restaurant.exceptions.response.ExceptionResponse;
+import enjoying.exceptions.AlreadyExistsException;
+import enjoying.exceptions.ForbiddenException;
+import enjoying.exceptions.NotFoundException;
+import enjoying.exceptions.response.ExceptionResponse;
 
 @RestControllerAdvice
 @Slf4j
 public class HandlerException {
 
-    //404
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionResponse notFound(NotFoundException notFoundException){

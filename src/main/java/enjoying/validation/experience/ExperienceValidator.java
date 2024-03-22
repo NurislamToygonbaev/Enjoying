@@ -1,4 +1,4 @@
-package restaurant.validation.experience;
+package enjoying.validation.experience;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

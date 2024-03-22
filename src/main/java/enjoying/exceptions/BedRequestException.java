@@ -1,4 +1,4 @@
-package restaurant.exceptions;
+package enjoying.exceptions;
 
 public class BedRequestException extends RuntimeException {
     public BedRequestException() {

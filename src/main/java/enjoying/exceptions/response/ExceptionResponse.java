@@ -1,4 +1,4 @@
-package restaurant.exceptions.response;
+package enjoying.exceptions.response;
 
 import lombok.Builder;
 import org.springframework.http.HttpStatus;

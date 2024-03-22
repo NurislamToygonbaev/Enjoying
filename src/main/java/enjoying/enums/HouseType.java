@@ -1,2 +1,6 @@
-package enjoying.enums;public enum HouseType {
+package enjoying.enums;
+
+public enum HouseType {
+    HOUSE,
+    APARTMENT;
 }

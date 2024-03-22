@@ -1,8 +1,7 @@
-package restaurant.validation.phoneNumber;
+package enjoying.validation.phoneNumber;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import restaurant.validation.password.PasswordValidator;
 
 import java.lang.annotation.*;
 

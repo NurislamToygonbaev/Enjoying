@@ -1,4 +1,4 @@
-package restaurant.exceptions;
+package enjoying.exceptions;
 
 public class ForbiddenException extends RuntimeException{
     public ForbiddenException() {

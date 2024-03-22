@@ -1,6 +1,8 @@
-package restaurant.config.jwt;
+package enjoying.config.jwt;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import enjoying.entities.User;
+import enjoying.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,8 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import restaurant.entities.User;
-import restaurant.repository.UserRepository;
 
 import java.io.IOException;
 

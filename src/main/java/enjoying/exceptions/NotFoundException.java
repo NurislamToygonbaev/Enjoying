@@ -1,4 +1,4 @@
-package restaurant.exceptions;
+package enjoying.exceptions;
 
 public class NotFoundException extends RuntimeException{
     public NotFoundException() {

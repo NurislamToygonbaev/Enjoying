@@ -1,8 +1,7 @@
-package restaurant.validation.experience;
+package enjoying.validation.experience;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import restaurant.validation.email.EmailValidator;
 
 import java.lang.annotation.*;
 

@@ -1,4 +1,4 @@
-package restaurant.validation.password;
+package enjoying.validation.password;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

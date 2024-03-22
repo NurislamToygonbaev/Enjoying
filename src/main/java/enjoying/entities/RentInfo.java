@@ -3,8 +3,10 @@ package enjoying.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
-@Table(name = "booking")
+@Table(name = "rent_infos")
 @Getter
 @Setter
 @Builder
@@ -12,6 +14,15 @@ import lombok.*;
 @AllArgsConstructor
 public class RentInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_seq")
-    @SequenceGenerator(name = "post_seq", allocationSize = 1)
-    private Long id;}
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rent_seq")
+    @SequenceGenerator(name = "rent_seq", allocationSize = 1)
+    private Long id;
+    LocalDate checkIn;
+    LocalDate checkOut;
+
+    @ManyToOne
+    private Announcement announcement;
+
+    @ManyToOne
+    private User user;
+}

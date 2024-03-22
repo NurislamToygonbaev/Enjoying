@@ -1,4 +1,4 @@
-package restaurant.validation.email;
+package enjoying.validation.email;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

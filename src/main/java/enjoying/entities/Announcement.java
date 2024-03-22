@@ -4,45 +4,59 @@ import enjoying.enums.HouseType;
 import enjoying.enums.Region;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "posts")
+@Table(name = "announcements")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post {
+public class Announcement {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_seq")
-    @SequenceGenerator(name = "post_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "announcement_seq")
+    @SequenceGenerator(name = "announcement_seq", allocationSize = 1)
     private Long id;
 
     @ElementCollection
     private List<String> images;
     private String title;
     private String description;
+    @Enumerated(EnumType.STRING)
     private HouseType houseType;
     private BigDecimal price;
     private int maxGuests;
+    @Enumerated(EnumType.STRING)
     private Region region;
     private String town;
     private String address;
-    @ElementCollection
-    private List<Integer> rating;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
+    private boolean isActive;
 
-    @OneToMany
-    private List<Post> posts;
+    @OneToMany(mappedBy = "announcement")
+    private List<RentInfo> rentInfos;
 
-    @ManyToMany
-    private List<Post> basketPost;
+    @ManyToMany(mappedBy = "announcements")
+    private List<Favorite> favorites;
 
-    @ManyToMany
-    private List<Post> favoritePost;
+    @ManyToOne
+    private User user;
 
+    @OneToMany(mappedBy = "announcement")
+    private List<FeedBack> feedBacks;
+
+    @PrePersist
+    private void prePersist(){
+        this.createdAt=LocalDate.now();
+    }
+
+    @PreUpdate
+    private void preUpdate(){
+        this.updatedAt=LocalDate.now();
+    }
 }
