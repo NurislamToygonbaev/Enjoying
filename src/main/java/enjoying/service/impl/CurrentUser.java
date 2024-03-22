@@ -18,25 +18,26 @@ import java.time.LocalDate;
 public class CurrentUser {
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    @PostConstruct
-private void saveAdmin(){
-   userRepo.save( User.builder()
-            .fullName("Admin")
-            .email("Admin@gmail.com")
-            .dateOfBirth(LocalDate.of(2000,12,12))
-            .image("AdminImage")
-            .money(BigDecimal.valueOf(20000))
-            .password(passwordEncoder.encode("admin"))
-            .phoneNumber("+996707374093")
-            .role(Role.ADMIN)
-    .build());
-}
-   public User getCurrenUser(){
-    String email = SecurityContextHolder.getContext().getAuthentication().getName();
-   return userRepo.getByEmail(email);
 
-   }
+    @PostConstruct
+    private void saveAdmin() {
+        userRepo.save(User.builder()
+                .fullName("Admin")
+                .email("Admin@gmail.com")
+                .dateOfBirth(LocalDate.of(2000, 12, 12))
+                .image("AdminImage")
+                .money(BigDecimal.valueOf(20000))
+                .password(passwordEncoder.encode("admin"))
+                .phoneNumber("+996707374093")
+                .role(Role.ADMIN)
+                .build());
+    }
+
+    public User getCurrenUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepo.getByEmail(email);
+
+    }
 
 
 }
