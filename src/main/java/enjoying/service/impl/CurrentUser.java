@@ -30,6 +30,17 @@ public class CurrentUser {
                 .phoneNumber("+996707374093")
                 .role(Role.ADMIN)
                 .build());
+        userRepo.save(User.builder()
+                .fullName("mirlan Arstanbeekevvv")
+                .email("arstanbeekovvv@gmail.com")
+                .dateOfBirth(LocalDate.of(2002, 4, 12))
+                .image("AdminImage")
+                .money(BigDecimal.valueOf(20000))
+                .password(passwordEncoder.encode("arstanbeekovvv"))
+                .phoneNumber("+996771900091")
+                .role(Role.CLIENT)
+                .build());
+
     }
 
     public User getCurrenUser() {
