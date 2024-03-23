@@ -1,15 +1,16 @@
 package enjoying.api;
 
+import enjoying.dto.request.PaginationRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
+import enjoying.dto.response.ResultPaginationAnnouncement;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +27,12 @@ public class AnnouncementAPI {
     @PostMapping("/save")
     public SimpleResponse save(@RequestBody @Valid SaveAnnouncementRequest saveAnnouncementRequest){
         return announcementService.save(saveAnnouncementRequest);
+    }
+
+    @Secured({"CLIENT", "VENDOR"})
+    @GetMapping("get-all")
+    public ResultPaginationAnnouncement paginationAnnouncements(@RequestBody PaginationRequest paginationRequest){
+        return announcementService.getAll(paginationRequest);
     }
 
 }

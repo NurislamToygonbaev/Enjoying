@@ -1,6 +1,9 @@
 package enjoying.service.impl;
 
+import enjoying.dto.request.PaginationRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
+import enjoying.dto.response.ForPagination;
+import enjoying.dto.response.ResultPaginationAnnouncement;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.entities.Announcement;
 import enjoying.entities.User;
@@ -11,11 +14,15 @@ import enjoying.repositories.UserRepository;
 import enjoying.service.AnnouncementService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +58,20 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)
                 .message("Successfully to publish a post!")
+                .build();
+    }
+
+    @Override
+    public ResultPaginationAnnouncement getAll(PaginationRequest paginationRequest) {
+        Pageable pageable = PageRequest.of(paginationRequest.page()-1 , paginationRequest.size());
+        Page<Announcement> announcementPage = announcementRepo.findAll(pageable);
+
+        List<ForPagination> resultPagination = new ArrayList<>();
+
+        return ResultPaginationAnnouncement.builder()
+                .page(announcementPage.getNumber())
+                .size(announcementPage.getTotalPages())
+                .paginations(resultPagination)
                 .build();
     }
 }
