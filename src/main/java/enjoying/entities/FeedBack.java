@@ -18,7 +18,7 @@ public class FeedBack {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "feed_seq")
     @SequenceGenerator(name = "feed_seq", allocationSize = 1)
     private Long id;
-    private int estimation;
+    private Integer rating;
     @ElementCollection
     private List<String> images;
     private String description;
@@ -32,4 +32,9 @@ public class FeedBack {
 
     @OneToOne(mappedBy = "feedBack")
     private Like like;
+
+    @PrePersist
+    private void createdAd(){
+        this.createdAt = LocalDate.now();
+    }
 }

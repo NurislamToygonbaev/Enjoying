@@ -1,5 +1,6 @@
 package enjoying.api;
 
+import enjoying.dto.request.FeedBackSaveRequest;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.service.*;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,10 @@ public class FeedBackAPI {
     private final LikeService likeService;
     private final RentInfoService rentInfoService;
 
-//    @PostMapping("/{anId}")
-//    public SimpleResponse saveFeedBack(@PathVariable Long anId,@RequestBody ){
-//        return feedBackService.save(anId);
-//    }
+
+    @PostMapping("/{anId}")
+    public SimpleResponse saveFeedBack(@PathVariable Long anId,
+                                       @RequestBody FeedBackSaveRequest request){
+        return feedBackService.save(anId, request);
+    }
 }
