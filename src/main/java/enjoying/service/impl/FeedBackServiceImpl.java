@@ -30,6 +30,11 @@ public class FeedBackServiceImpl implements FeedBackService {
         Announcement announcement = announcementRepo.getAnnouncementById(anId);
         List<RentInfo> rentInfos = announcement.getRentInfos();
         List<RentInfo> userRentInfos = user.getRentInfos();
+
+        if (userRentInfos.isEmpty()) {
+            throw new ForbiddenException("You cannot leave feedback without any bookings.");
+        }
+
         for (RentInfo userRentInfo : userRentInfos) {
             if (!rentInfos.contains(userRentInfo)){
                 throw new ForbiddenException("feedback can be left only after booking");
