@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -79,5 +80,12 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @PrePersist
+    private void prePersist(){
+        this.announcements = new ArrayList<>();
+        this.rentInfos = new ArrayList<>();
+        this.feedBacks = new ArrayList<>();
     }
 }
