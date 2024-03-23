@@ -35,10 +35,5 @@ public class AuthAPI {
     public SignResponse signIn(@RequestBody @Valid SignInRequest signInRequest){
         return userService.signIn(signInRequest);
     }
-
-    @PostMapping("/findAllUser")
-    @Operation(description = "FindAll User")
-    public List<FindAllResponse> findAlUser(){
-        return  userService.findAll();
-    }}
+}
 

@@ -2,9 +2,9 @@ package enjoying.service.impl;
 
 import enjoying.config.jwt.JwtService;
 import enjoying.dto.request.SignInRequest;
+import enjoying.dto.request.SignUpRequest;
 import enjoying.dto.response.FindAllResponse;
 import enjoying.dto.response.SignResponse;
-import enjoying.dto.request.SignUpRequest;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.entities.User;
 import enjoying.enums.Role;
@@ -19,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -79,12 +78,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<FindAllResponse> findAll() {
-        List<User>userList = userRepo.findAll();
+        List<User> userList = userRepo.findAll();
         List<FindAllResponse> responseList = new ArrayList<>();
 
         for (User user : userList) {
-          FindAllResponse response = FindAllResponse.builder()
+            FindAllResponse response = FindAllResponse.builder()
                     .fulName(user.getFullName())
+                    .email(user.getEmail())
                     .announcement(user.getAnnouncements().size())
                     .booking(user.getRentInfos().size())
                     .build();
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
         }
 
         return responseList;
-}
+    }
 
     @Override
     public SimpleResponse deleteUser(Long userId) {
@@ -106,8 +106,9 @@ public class UserServiceImpl implements UserService {
                     .httpStatus(HttpStatus.OK)
                     .message("Deleted")
 
-            .build();
+                    .build();
         } else {
-            throw new NotFoundException("User with id: "+ userId+ "notFound");
+            throw new NotFoundException("User with id: " + userId + "notFound");
         }
-}}
+    }
+}
