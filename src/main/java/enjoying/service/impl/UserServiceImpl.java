@@ -88,8 +88,8 @@ public class UserServiceImpl implements UserService {
                     .announcement(user.getAnnouncements().size())
                     .booking(user.getRentInfos().size())
                     .build();
+if (!user.getRole().equals(Role.ADMIN))responseList.add(response);
 
-            responseList.add(response);
         }
 
         return responseList;
