@@ -1,14 +1,17 @@
 package enjoying.service.impl;
 
 import enjoying.config.jwt.JwtService;
+import enjoying.dto.request.AddMoneyRequest;
 import enjoying.dto.request.SignInRequest;
 import enjoying.dto.request.SignUpRequest;
+import enjoying.dto.request.UpdateRequest;
 import enjoying.dto.response.FindAllResponse;
 import enjoying.dto.response.SignResponse;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.entities.User;
 import enjoying.enums.Role;
 import enjoying.exceptions.AlreadyExistsException;
+import enjoying.exceptions.ForbiddenException;
 import enjoying.exceptions.NotFoundException;
 import enjoying.repositories.UserRepository;
 import enjoying.service.UserService;
@@ -44,8 +47,8 @@ public class UserServiceImpl implements UserService {
                 .fullName(signUpReques.getFullName())
                 .email(signUpReques.getEmail())
                 .dateOfBirth(signUpReques.getDateOfBirth())
+                        .money(BigDecimal.ZERO)
                 .image(signUpReques.getImage())
-                .money(BigDecimal.valueOf(signUpReques.getMoney()))
                 .phoneNumber(signUpReques.getPhoneNumber())
                 .password(passwordEncoder.encode(signUpReques.getPhoneNumber()))
                 .role(Role.CLIENT)
@@ -97,7 +100,14 @@ if (!user.getRole().equals(Role.ADMIN))responseList.add(response);
 
     @Override
     public SimpleResponse deleteUser(Long userId) {
-        currentUser.getCurrenUser();
+        User currenUser = currentUser.getCurrenUser();
+        if (currenUser.getId().equals(userId)){
+            throw new ForbiddenException("The admin will not be able to delete himself");
+        }
+        if (currenUser.getRole().equals(Role.CLIENT) ||currenUser.getRole().equals(Role.VENDOR)){
+            throw new ForbiddenException("Not acces");
+        }
+
         Optional<User> optionalUser = userRepo.findById(userId);
 
         if (optionalUser.isPresent()) {
@@ -110,5 +120,34 @@ if (!user.getRole().equals(Role.ADMIN))responseList.add(response);
         } else {
             throw new NotFoundException("User with id: " + userId + "notFound");
         }
+    }
+
+    @Override
+    public SimpleResponse updateUser(UpdateRequest updateRequest) {
+        User user = currentUser.getCurrenUser();
+        checkEmail(updateRequest.email());
+        user.setFullName(updateRequest.fullName());
+        user.setEmail(updateRequest.email());
+        user.setImage(updateRequest.image());
+        user.setDateOfBirth(updateRequest.dateOfBirth());
+        user.setPassword(updateRequest.password());
+        user.setPhoneNumber(updateRequest.phoneNumber());
+        userRepo.save(user);
+return SimpleResponse.builder().
+        httpStatus(HttpStatus.OK).message("Updated!").build();    }
+
+    @Override
+    public SimpleResponse addMoney(AddMoneyRequest addMoneyRequest) {
+        User user = currentUser.getCurrenUser();
+        if (user.getRole().equals(Role.ADMIN)){
+            throw new ForbiddenException("Not acces");
+        }
+        user.setMoney(user.getMoney().add(BigDecimal.valueOf(addMoneyRequest.money())));
+        userRepo.save(user);
+        return SimpleResponse.builder()
+                .httpStatus(HttpStatus.OK)
+                .message("Added money")
+                        .
+                build();
     }
 }

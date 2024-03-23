@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/api/rent_info")
 public class RentInfoAPI {
     private final UserService userService;
     private final AnnouncementService announcementService;

@@ -28,6 +28,5 @@ public class SignUpRequest {
     private String phoneNumber;
     @NotBlank
     private String image;
-    @ExperienceValidation
-    private Integer money;
+
 }
