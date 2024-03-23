@@ -13,8 +13,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
    default User getByEmail(String email){
        return findByEmail(email).orElseThrow(() ->
-               new NotFoundException("User with email not found"));
+               new NotFoundException("User with: "+email+" not found"));
    }
+    default User getById(Long id){
+        return findById(id).orElseThrow(() ->
+                new NotFoundException("User with: "+id+" not found"));
+    }
 
     boolean existsByEmail(String email);
 
