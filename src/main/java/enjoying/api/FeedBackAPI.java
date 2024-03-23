@@ -1,13 +1,13 @@
 package enjoying.api;
 
+import enjoying.dto.response.SimpleResponse;
 import enjoying.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/api/feed_back")
 public class FeedBackAPI {
     private final UserService userService;
     private final AnnouncementService announcementService;
@@ -15,4 +15,9 @@ public class FeedBackAPI {
     private final FeedBackService feedBackService;
     private final LikeService likeService;
     private final RentInfoService rentInfoService;
+
+//    @PostMapping("/{anId}")
+//    public SimpleResponse saveFeedBack(@PathVariable Long anId,@RequestBody ){
+//        return feedBackService.save(anId);
+//    }
 }
