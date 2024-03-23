@@ -40,6 +40,26 @@ public class CurrentUser {
                 .phoneNumber("+996771900091")
                 .role(Role.CLIENT)
                 .build());
+        userRepo.save(User.builder()
+                .fullName("Nurislam Toigonbaiev")
+                .email("nurislam@gmail.com")
+                .dateOfBirth(LocalDate.of(1998, 9, 12))
+                .image("AdminImage")
+                .money(BigDecimal.valueOf(20000))
+                .password(passwordEncoder.encode("nurislam"))
+                .phoneNumber("+996771900091")
+                .role(Role.CLIENT)
+                .build());
+        userRepo.save(User.builder()
+                .fullName("Nurmukhammed Medetov")
+                .email("nurmukhammed@gmail.com")
+                .dateOfBirth(LocalDate.of(2003, 4, 12))
+                .image("AdminImage")
+                .money(BigDecimal.valueOf(20000))
+                .password(passwordEncoder.encode("nurmukhammed"))
+                .phoneNumber("+996771900091")
+                .role(Role.CLIENT)
+                .build());
 
     }
 
