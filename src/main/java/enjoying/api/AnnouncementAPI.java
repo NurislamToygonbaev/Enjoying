@@ -1,7 +1,12 @@
 package enjoying.api;
 
+import enjoying.dto.request.announcement.SaveAnnouncementRequest;
+import enjoying.dto.response.SimpleResponse;
 import enjoying.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,5 +20,11 @@ public class AnnouncementAPI {
     private final FeedBackService feedBackService;
     private final LikeService likeService;
     private final RentInfoService rentInfoService;
+
+    @Secured({"CLIENT", "VENDOR"})
+    @PostMapping("/save")
+    public SimpleResponse save(@RequestBody SaveAnnouncementRequest saveAnnouncementRequest){
+        return announcementService.save(saveAnnouncementRequest);
+    }
 
 }
