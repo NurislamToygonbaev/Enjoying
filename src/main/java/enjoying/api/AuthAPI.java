@@ -1,7 +1,14 @@
 package enjoying.api;
 
+import enjoying.dto.request.SignInRequest;
+import enjoying.dto.response.SignResponse;
+import enjoying.dto.request.SignUpRequest;
 import enjoying.service.*;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,4 +22,14 @@ public class AuthAPI {
     private final FeedBackService feedBackService;
     private final LikeService likeService;
     private final RentInfoService rentInfoService;
+    @PostMapping("/SignUp")
+    @Operation(description = "SignUpUser")
+    public SignResponse simpleResponse(@RequestBody @Valid SignUpRequest signUpReques){
+        return userService.signUpUser(signUpReques);
+    }
+    @PostMapping("/SigIn")
+    @Operation(description = "SignIn")
+    public SignResponse signIn(@RequestBody @Valid SignInRequest signInRequest){
+        return userService.signIn(signInRequest);
+    }
 }
