@@ -38,6 +38,7 @@ public class Announcement {
     private LocalDate createdAt;
     private LocalDate updatedAt;
     private boolean isActive;
+    private double rating;
 
     @OneToMany(mappedBy = "announcement")
     private List<RentInfo> rentInfos;

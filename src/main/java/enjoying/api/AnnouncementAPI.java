@@ -3,6 +3,7 @@ package enjoying.api;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.service.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class AnnouncementAPI {
 
     @Secured({"CLIENT", "VENDOR"})
     @PostMapping("/save")
-    public SimpleResponse save(@RequestBody SaveAnnouncementRequest saveAnnouncementRequest){
+    public SimpleResponse save(@RequestBody @Valid SaveAnnouncementRequest saveAnnouncementRequest){
         return announcementService.save(saveAnnouncementRequest);
     }
 
