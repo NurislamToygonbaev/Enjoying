@@ -22,7 +22,7 @@ public class CurrentUser {
     private void saveAdmin() {
         userRepo.save(User.builder()
                 .fullName("Admin")
-                .email("Admin@gmail.com")
+                .email("admin@gmail.com")
                 .dateOfBirth(LocalDate.of(2000, 12, 12))
                 .image("AdminImage")
                 .money(BigDecimal.valueOf(20000))
