@@ -38,15 +38,16 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         announcement.setImages(saveAnnouncementRequest.images());
         announcement.setTitle(saveAnnouncementRequest.title());
         announcement.setHouseType(saveAnnouncementRequest.houseType());
-        announcement.setPrice(saveAnnouncementRequest.price());
+        announcement.setPrice(BigDecimal.valueOf(saveAnnouncementRequest.price()));
         announcement.setMaxGuests(saveAnnouncementRequest.maxOfQuests());
         announcement.setDescription(saveAnnouncementRequest.descriptionOfListing());
         announcement.setRegion(saveAnnouncementRequest.region());
         announcement.setTown(saveAnnouncementRequest.town());
         announcement.setAddress(saveAnnouncementRequest.address());
-        announcementRepo.save(announcement);
-        currentUser.getCurrenUser().getAnnouncements().add(announcement);
         user.setRole(Role.VENDOR);
+        announcementRepo.save(announcement);
+        user.getAnnouncements().add(announcement);
+        announcement.setUser(user);
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)
                 .message("Successfully to publish a post!")
