@@ -25,9 +25,9 @@ public class CurrentUser {
                 .email("admin@gmail.com")
                 .dateOfBirth(LocalDate.of(2000, 12, 12))
                 .image("AdminImage")
-                .money(BigDecimal.valueOf(20000))
                 .password(passwordEncoder.encode("admin"))
                 .phoneNumber("+996707374093")
+                .money(BigDecimal.ZERO)
                 .role(Role.ADMIN)
                 .build());
         userRepo.save(User.builder()
@@ -35,9 +35,10 @@ public class CurrentUser {
                 .email("arstanbeekovvv@gmail.com")
                 .dateOfBirth(LocalDate.of(2002, 4, 12))
                 .image("AdminImage")
-                .money(BigDecimal.valueOf(20000))
                 .password(passwordEncoder.encode("arstanbeekovvv"))
                 .phoneNumber("+996771900091")
+                .money(BigDecimal.ZERO)
+
                 .role(Role.CLIENT)
                 .build());
         userRepo.save(User.builder()
@@ -45,9 +46,10 @@ public class CurrentUser {
                 .email("nurislam@gmail.com")
                 .dateOfBirth(LocalDate.of(1998, 9, 12))
                 .image("AdminImage")
-                .money(BigDecimal.valueOf(20000))
                 .password(passwordEncoder.encode("nurislam"))
                 .phoneNumber("+996771900091")
+                .money(BigDecimal.ZERO)
+
                 .role(Role.CLIENT)
                 .build());
         userRepo.save(User.builder()
@@ -55,9 +57,10 @@ public class CurrentUser {
                 .email("nurmukhammed@gmail.com")
                 .dateOfBirth(LocalDate.of(2003, 4, 12))
                 .image("AdminImage")
-                .money(BigDecimal.valueOf(20000))
                 .password(passwordEncoder.encode("nurmukhammed"))
                 .phoneNumber("+996771900091")
+                .money(BigDecimal.ZERO)
+
                 .role(Role.CLIENT)
                 .build());
 

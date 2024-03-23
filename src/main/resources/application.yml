@@ -4,9 +4,9 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/enjoying
+    url: jdbc:postgresql://localhost:5431/Airbnb
     username: postgres
-    password: mirlan001m.
+    password: 12345
 
   jpa:
     hibernate:

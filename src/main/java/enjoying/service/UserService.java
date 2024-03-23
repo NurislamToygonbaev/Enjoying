@@ -1,6 +1,8 @@
 package enjoying.service;
 
+import enjoying.dto.request.AddMoneyRequest;
 import enjoying.dto.request.SignInRequest;
+import enjoying.dto.request.UpdateRequest;
 import enjoying.dto.response.FindAllResponse;
 import enjoying.dto.response.SignResponse;
 import enjoying.dto.request.SignUpRequest;
@@ -17,4 +19,8 @@ public interface UserService {
     List<FindAllResponse> findAll();
 
     SimpleResponse deleteUser(Long userId);
+
+    SimpleResponse updateUser(UpdateRequest updateRequest);
+
+    SimpleResponse addMoney(AddMoneyRequest addMoneyRequest);
 }
