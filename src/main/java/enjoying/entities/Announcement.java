@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -53,7 +54,10 @@ public class Announcement {
 
     @PrePersist
     private void prePersist(){
-        this.createdAt=LocalDate.now();
+        this.createdAt = LocalDate.now();
+        this.rentInfos = new ArrayList<>();
+        this.favorites = new ArrayList<>();
+        this.feedBacks = new ArrayList<>();
     }
 
     @PreUpdate
