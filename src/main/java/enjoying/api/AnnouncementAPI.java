@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/api/announcement")
 public class AnnouncementAPI {
     private final UserService userService;
     private final AnnouncementService announcementService;
@@ -15,4 +15,5 @@ public class AnnouncementAPI {
     private final FeedBackService feedBackService;
     private final LikeService likeService;
     private final RentInfoService rentInfoService;
+
 }
