@@ -11,6 +11,7 @@ import enjoying.enums.Role;
 import enjoying.exceptions.BedRequestException;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.UserRepository;
+import enjoying.repositories.jdbcTamplate.AnnouncementJDBCTemplateRepository;
 import enjoying.service.AnnouncementService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnnouncementServiceImpl implements AnnouncementService {
     private final AnnouncementRepository announcementRepo;
+    private final AnnouncementJDBCTemplateRepository templateRepository;
     private final CurrentUser currentUser;
     private final UserRepository userRepository;
 
@@ -63,15 +65,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     public ResultPaginationAnnouncement getAll(PaginationRequest paginationRequest) {
-        Pageable pageable = PageRequest.of(paginationRequest.page()-1 , paginationRequest.size());
-        Page<Announcement> announcementPage = announcementRepo.findAll(pageable);
-
-        List<ForPagination> resultPagination = new ArrayList<>();
-
-        return ResultPaginationAnnouncement.builder()
-                .page(announcementPage.getNumber())
-                .size(announcementPage.getTotalPages())
-                .paginations(resultPagination)
-                .build();
+        return templateRepository.getAll(paginationRequest);
     }
 }

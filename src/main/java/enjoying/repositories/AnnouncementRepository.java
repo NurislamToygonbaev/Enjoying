@@ -2,6 +2,8 @@ package enjoying.repositories;
 
 import enjoying.entities.Announcement;
 import enjoying.exceptions.NotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AnnouncementRepository extends JpaRepository<Announcement, Long> {
@@ -9,4 +11,6 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
         return findById(id).orElseThrow(() ->
                 new NotFoundException("Announcement with id: "+id+" not found"));
     }
+
+    Page<Announcement> findAll(Pageable pageable);
 }
