@@ -40,6 +40,7 @@ public class Announcement {
     private boolean isActive;
     private double rating;
     private String reject;
+    private boolean isBlock;
 
     @OneToMany(mappedBy = "announcement")
     private List<RentInfo> rentInfos;

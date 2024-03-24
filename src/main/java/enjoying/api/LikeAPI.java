@@ -1,13 +1,13 @@
 package enjoying.api;
 
+import enjoying.dto.response.SimpleResponse;
 import enjoying.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/api/like")
 public class LikeAPI {
     private final UserService userService;
     private final AnnouncementService announcementService;
@@ -15,4 +15,14 @@ public class LikeAPI {
     private final FeedBackService feedBackService;
     private final LikeService likeService;
     private final RentInfoService rentInfoService;
+
+    @PostMapping("/{feedId}")
+    public SimpleResponse likeToFeedBack(@PathVariable Long feedId){
+        return likeService.likeToFeedBack(feedId);
+    }
+
+    @PostMapping("/dis-like/{feedId}")
+    public SimpleResponse disLikeToFeedBack(@PathVariable Long feedId){
+        return likeService.disLikeToFeedBack(feedId);
+    }
 }

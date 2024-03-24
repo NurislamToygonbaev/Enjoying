@@ -1,10 +1,10 @@
 package enjoying.api;
 
 import enjoying.dto.pagination.UserPagination;
+import enjoying.dto.request.EditAnnouncementReq;
 import enjoying.dto.request.PaginationRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
-import enjoying.dto.response.ResultPaginationAnnouncement;
-import enjoying.dto.response.SimpleResponse;
+import enjoying.dto.response.*;
 import enjoying.enums.HouseType;
 import enjoying.enums.Region;
 import enjoying.service.*;
@@ -89,4 +89,46 @@ public class AnnouncementAPI {
                                                               @RequestParam int size){
         return announcementService.lowPriceAcceptedAnnouncement(page, size);
     }
+
+    @GetMapping("/booking")
+    @Operation(description = "FindAll active Announcements where i was")
+    public List<AnnouncementBookingResponse> bookingAcceptedAnnouncement(){
+        return rentInfoService.bookingAcceptedAnnouncement();
+    }
+
+    @GetMapping("/my-announcements")
+    @Operation(description = "my announcements")
+    public List<MyAnnouncementResponses> myAnnouncements(){
+        return likeService.myAnnouncements();
+    }
+
+    @GetMapping("/my-announcements-house-type")
+    @Operation(description = "my announcements with house type")
+    public List<MyAnnouncementResponses> myAnnouncementsWithHouseType(@RequestParam HouseType type){
+        return likeService.myAnnouncementsWithHouseType(type);
+    }
+
+    @GetMapping("/my-announcements-high")
+    @Operation(description = "my announcements high price")
+    public List<MyAnnouncementResponses> myAnnouncementsHigh(){
+        return likeService.myAnnouncementsHigh();
+    }
+
+    @GetMapping("/my-announcements-low")
+    @Operation(description = "my announcements low price")
+    public List<MyAnnouncementResponses> myAnnouncementsLow(){
+        return likeService.myAnnouncementsLow();
+    }
+
+    @PutMapping("/{anId}")
+    public SimpleResponse editMyAnnouncement(@PathVariable Long anId,
+                                             @RequestBody EditAnnouncementReq req){
+        return announcementService.editMyAnnouncement(anId, req);
+    }
+
+    @DeleteMapping("/{anId}")
+    public SimpleResponse deleteMyAnnouncement(@PathVariable Long anId){
+        return announcementService.deleteMyAnnouncement(anId);
+    }
+
 }
