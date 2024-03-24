@@ -1,14 +1,12 @@
 package enjoying.api;
 
 import enjoying.dto.pagination.UserPagination;
+import enjoying.dto.response.FindAnnouncementAdminRes;
 import enjoying.service.AdminService;
-import enjoying.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,8 +16,15 @@ public class AdminAPI {
 
     @Secured("ADMIN")
     @GetMapping
+    @Operation(description = "FindAll no active Announcements")
     public UserPagination findAllAcceptedAnnouncement(@RequestParam int page,
                                                       @RequestParam int size){
         return adminService.findAllAcceptedAnnouncement(page, size);
+    }
+
+    @Secured("ADMIN")
+    @GetMapping("/find/{anId}")
+    public FindAnnouncementAdminRes findById(@PathVariable Long anId){
+        return adminService.findById(anId);
     }
 }

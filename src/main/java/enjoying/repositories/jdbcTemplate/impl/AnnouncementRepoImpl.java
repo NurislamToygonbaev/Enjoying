@@ -2,13 +2,13 @@ package enjoying.repositories.jdbcTemplate.impl;
 
 import enjoying.dto.pagination.UserPagination;
 import enjoying.dto.response.AnnouncementResponses;
+import enjoying.dto.response.FindAnnouncementAdminRes;
+import enjoying.enums.HouseType;
 import enjoying.repositories.jdbcTemplate.AnnouncementRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,32 +21,30 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
     public UserPagination findAllAcceptedAnnouncement(int page, int size) {
         int offset = (page - 1) * size;
         String query = """
-                select images, price, rating, description, address, town, max_guests
-                 from announcements where is_active = true limit ? offset ?
+                 select a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating, ai.images
+                          from announcements a
+                          join announcement_images ai on a.id = ai.announcement_id
+                          where a.is_active = false limit ? offset ?
                 """;
         List<AnnouncementResponses> announcementResponses = jdbcTemplate.query(
                 query,
-                new Object[]{size, offset},
-                (ResultSet rs) -> {
-                    List<AnnouncementResponses> results = new ArrayList<>();
-                    while (rs.next()) {
-                        String imagesStr = rs.getString("images");
-                        List<String> images = Arrays.asList(imagesStr.split(","));
+                (rs, rowNum) -> {
+                    String imagesStr = rs.getString("images");
+                    List<String> images = Arrays.asList(imagesStr.split(","));
 
-                        AnnouncementResponses announcementResponse = AnnouncementResponses.builder()
-                                .image(images)
-                                .description(rs.getString("description"))
-                                .price(String.valueOf(rs.getBigDecimal("price")))
-                                .guest(rs.getInt("max_guests"))
-                                .town(rs.getString("town"))
-                                .address(rs.getString("address"))
-                                .rating(rs.getDouble("rating"))
-                                .build();
-
-                        results.add(announcementResponse);
-                    }
-                    return results;
-                }
+                    return AnnouncementResponses.builder()
+                            .id(rs.getLong("id"))
+                            .image(images)
+                            .description(rs.getString("description"))
+                            .price(String.valueOf(rs.getBigDecimal("price")))
+                            .town(rs.getString("town"))
+                            .address(rs.getString("address"))
+                            .rating(rs.getDouble("rating"))
+                            .guest(rs.getInt("max_guests"))
+                            .build();
+                },
+                size,
+                offset
         );
         return UserPagination.builder()
                 .page(page)

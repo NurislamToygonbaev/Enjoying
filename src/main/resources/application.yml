@@ -4,17 +4,13 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5431/Airbnb
+    url: jdbc:postgresql://localhost:5432/enjoying
     username: postgres
-<<<<<<< HEAD
-    password: 12345
-=======
     password: rootroot
->>>>>>> abe90728391a5fef785e3cfdfa63bf5c40203633
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
 
 
