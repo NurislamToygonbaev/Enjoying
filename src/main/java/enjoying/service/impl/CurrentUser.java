@@ -31,11 +31,11 @@ public class CurrentUser {
                 .role(Role.ADMIN)
                 .build());
         userRepo.save(User.builder()
-                .fullName("mirlan Arstanbeekevvv")
-                .email("arstanbeekovvv@gmail.com")
+                .fullName("mirlan")
+                .email("mirlan@gmail.com")
                 .dateOfBirth(LocalDate.of(2002, 4, 12))
                 .image("AdminImage")
-                .password(passwordEncoder.encode("arstanbeekovvv"))
+                .password(passwordEncoder.encode("arstanbekov"))
                 .phoneNumber("+996771900091")
                 .money(BigDecimal.ZERO)
 

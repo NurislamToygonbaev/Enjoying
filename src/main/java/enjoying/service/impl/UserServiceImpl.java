@@ -5,14 +5,15 @@ import enjoying.dto.request.AddMoneyRequest;
 import enjoying.dto.request.SignInRequest;
 import enjoying.dto.request.SignUpRequest;
 import enjoying.dto.request.UpdateRequest;
-import enjoying.dto.response.FindAllResponse;
-import enjoying.dto.response.SignResponse;
-import enjoying.dto.response.SimpleResponse;
+import enjoying.dto.response.*;
+import enjoying.entities.Announcement;
+import enjoying.entities.RentInfo;
 import enjoying.entities.User;
 import enjoying.enums.Role;
 import enjoying.exceptions.AlreadyExistsException;
 import enjoying.exceptions.ForbiddenException;
 import enjoying.exceptions.NotFoundException;
+import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.UserRepository;
 import enjoying.service.UserService;
 import jakarta.transaction.Transactional;
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final CurrentUser currentUser;
+    private final AnnouncementRepository announcementRepository;
 
     private void checkEmail(String email) {
         boolean exists = userRepo.existsByEmail(email);
@@ -47,7 +49,7 @@ public class UserServiceImpl implements UserService {
                 .fullName(signUpReques.getFullName())
                 .email(signUpReques.getEmail())
                 .dateOfBirth(signUpReques.getDateOfBirth())
-                        .money(BigDecimal.ZERO)
+                .money(BigDecimal.ZERO)
                 .image(signUpReques.getImage())
                 .phoneNumber(signUpReques.getPhoneNumber())
                 .password(passwordEncoder.encode(signUpReques.getPhoneNumber()))
@@ -91,7 +93,7 @@ public class UserServiceImpl implements UserService {
                     .announcement(user.getAnnouncements().size())
                     .booking(user.getRentInfos().size())
                     .build();
-if (!user.getRole().equals(Role.ADMIN))responseList.add(response);
+            if (!user.getRole().equals(Role.ADMIN)) responseList.add(response);
 
         }
 
@@ -101,10 +103,10 @@ if (!user.getRole().equals(Role.ADMIN))responseList.add(response);
     @Override
     public SimpleResponse deleteUser(Long userId) {
         User currenUser = currentUser.getCurrenUser();
-        if (currenUser.getId().equals(userId)){
+        if (currenUser.getId().equals(userId)) {
             throw new ForbiddenException("The admin will not be able to delete himself");
         }
-        if (currenUser.getRole().equals(Role.CLIENT) ||currenUser.getRole().equals(Role.VENDOR)){
+        if (currenUser.getRole().equals(Role.CLIENT) || currenUser.getRole().equals(Role.VENDOR)) {
             throw new ForbiddenException("Not acces");
         }
 
@@ -133,13 +135,14 @@ if (!user.getRole().equals(Role.ADMIN))responseList.add(response);
         user.setPassword(updateRequest.password());
         user.setPhoneNumber(updateRequest.phoneNumber());
         userRepo.save(user);
-return SimpleResponse.builder().
-        httpStatus(HttpStatus.OK).message("Updated!").build();    }
+        return SimpleResponse.builder().
+                httpStatus(HttpStatus.OK).message("Updated!").build();
+    }
 
     @Override
     public SimpleResponse addMoney(AddMoneyRequest addMoneyRequest) {
         User user = currentUser.getCurrenUser();
-        if (user.getRole().equals(Role.ADMIN)){
+        if (user.getRole().equals(Role.ADMIN)) {
             throw new ForbiddenException("Not acces");
         }
         user.setMoney(user.getMoney().add(BigDecimal.valueOf(addMoneyRequest.money())));
@@ -149,5 +152,35 @@ return SimpleResponse.builder().
                 .message("Added money")
                         .
                 build();
+    }
+
+    @Override
+    public MyProfile myProfile() {
+        User user = currentUser.getCurrenUser();
+        return MyProfile.builder()
+                .name(user.getFullName())
+                .phoneNumber(user.getPhoneNumber())
+                .build();
+    }
+
+    @Override
+    public List<DataAnnouncement> dataAnnouncement() {
+        User user = currentUser.getCurrenUser();
+//        List<Announcement> announcements = new ArrayList<>();
+//        for (Announcement announcement : announcements) {
+//            DataAnnouncement.builder()
+//                    .image(String.valueOf(announcement.getImages()))
+//                    .price(announcement.getPrice())
+//                    .rating(announcement.getRating())
+//                    .title(announcement.getTitle())
+//                    .region(announcement.getRegion())
+//                    .town(announcement.getTown())
+//                    .address(announcement.getAddress())
+//                    .maxGuest(announcement.getMaxGuests())
+//                    .checkin(announcement.getRentInfos())
+//
+//            build();
+//        }
+        return announcementRepository.dataAnnouncement();
     }
 }
