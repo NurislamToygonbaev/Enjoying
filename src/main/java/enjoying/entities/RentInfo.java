@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "rent_infos")
@@ -25,4 +27,5 @@ public class RentInfo {
 
     @ManyToOne
     private User user;
+
 }

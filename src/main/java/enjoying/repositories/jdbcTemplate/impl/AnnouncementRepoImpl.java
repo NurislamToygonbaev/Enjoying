@@ -27,7 +27,7 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                  select array_agg(ai.images) AS images, a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                           from announcements a
                           join announcement_images ai on a.id = ai.announcement_id
-                          where a.is_active = false
+                          where a.is_active = false and is_block = false
                           group by a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                             limit ? offset ?
                 """;
@@ -62,7 +62,7 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                  select array_agg(ai.images) AS images, a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                           from announcements a
                           join announcement_images ai on a.id = ai.announcement_id
-                          where a.is_active = true
+                          where a.is_active = true and is_block = false
                           group by a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                           order by a.created_at desc limit ? offset ?
                 """;
@@ -95,7 +95,7 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                  select array_agg(ai.images) AS images, a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                           from announcements a
                           join announcement_images ai on a.id = ai.announcement_id
-                          where a.is_active = true and a.region = ?
+                          where a.is_active = true  and is_block = false and a.region = ?
                           group by a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                           limit ? offset ?
                 """;
@@ -135,7 +135,7 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                  select array_agg(ai.images) AS images, a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                           from announcements a
                           join announcement_images ai on a.id = ai.announcement_id
-                          where a.is_active = true and a.rating > 4
+                          where a.is_active = true and is_block = false and a.rating > 4
                           group by a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                           limit ? offset ?
                 """;
@@ -168,7 +168,7 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                  select array_agg(ai.images) AS images, a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                           from announcements a
                           join announcement_images ai on a.id = ai.announcement_id
-                          where a.is_active = true and a.house_type = ?
+                          where a.is_active = true and is_block = false and a.house_type = ?
                           group by a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                           limit ? offset ?
                 """;
@@ -208,7 +208,7 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                  select array_agg(ai.images) AS images, a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                           from announcements a
                           join announcement_images ai on a.id = ai.announcement_id
-                          where a.is_active = true
+                          where a.is_active = true and is_block = false
                           group by a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                           order by a.price desc limit ? offset ?
                 """;
@@ -241,7 +241,7 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                  select array_agg(ai.images) AS images, a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                           from announcements a
                           join announcement_images ai on a.id = ai.announcement_id
-                          where a.is_active = true
+                          where a.is_active = true and is_block = false
                           group by a.id, a.title, a.description, a.price, a.max_guests, a.town, a.address, a.rating
                           order by a.price limit ? offset ?
                 """;

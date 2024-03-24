@@ -4,10 +4,7 @@ import enjoying.dto.request.FeedBackSaveRequest;
 import enjoying.dto.request.FeedBackUpdateReq;
 import enjoying.dto.response.FindFeedBackResponse;
 import enjoying.dto.response.SimpleResponse;
-import enjoying.entities.Announcement;
-import enjoying.entities.FeedBack;
-import enjoying.entities.RentInfo;
-import enjoying.entities.User;
+import enjoying.entities.*;
 import enjoying.exceptions.ForbiddenException;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.FeedBackRepository;
@@ -51,6 +48,9 @@ public class FeedBackServiceImpl implements FeedBackService {
         announcement.getFeedBacks().add(feedBack);
         user.getFeedBacks().add(feedBack);
         feedBack.setUser(user);
+        Like like = new Like();
+        like.setFeedBack(feedBack);
+        feedBack.setLike(like);
 
         double rating = announcementRating(announcement.getFeedBacks());
         double roundedRating = Math.round(rating * 10.0) / 10.0;

@@ -1,6 +1,7 @@
 package enjoying.service;
 
 import enjoying.dto.pagination.UserPagination;
+import enjoying.dto.request.EditAnnouncementReq;
 import enjoying.dto.request.PaginationRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
 import enjoying.dto.response.ResultPaginationAnnouncement;
@@ -24,4 +25,8 @@ public interface AnnouncementService {
     UserPagination highPriceAcceptedAnnouncement(int page, int size);
 
     UserPagination lowPriceAcceptedAnnouncement(int page, int size);
+
+    SimpleResponse editMyAnnouncement(Long anId, EditAnnouncementReq req);
+
+    SimpleResponse deleteMyAnnouncement(Long anId);
 }

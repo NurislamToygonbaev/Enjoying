@@ -1,6 +1,7 @@
 package enjoying.service.impl;
 
 import enjoying.dto.pagination.UserPagination;
+import enjoying.dto.request.EditAnnouncementReq;
 import enjoying.dto.request.PaginationRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
 import enjoying.dto.response.ForPagination;
@@ -12,11 +13,14 @@ import enjoying.enums.HouseType;
 import enjoying.enums.Region;
 import enjoying.enums.Role;
 import enjoying.exceptions.BedRequestException;
+import enjoying.exceptions.ForbiddenException;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.UserRepository;
 import enjoying.repositories.jdbcTemplate.AnnouncementRepo;
 import enjoying.service.AnnouncementService;
+import enjoying.validation.experience.ExperienceValidation;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,6 +51,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         User admin = userRepository.findByRole(Role.ADMIN);
         admin.setMoney(BigDecimal.valueOf(admin.getMoney().intValue() + 200));
         Announcement announcement = new Announcement();
+        announcement.setBlock(false);
         announcement.setImages(saveAnnouncementRequest.images());
         announcement.setTitle(saveAnnouncementRequest.title());
         announcement.setHouseType(saveAnnouncementRequest.houseType());
@@ -108,5 +113,40 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public UserPagination lowPriceAcceptedAnnouncement(int page, int size) {
         return repo.lowPriceAcceptedAnnouncement(page, size);
+    }
+
+    @Override @Transactional
+    public SimpleResponse editMyAnnouncement(Long anId, EditAnnouncementReq req) {
+        User user = currentUser.getCurrenUser();
+        Announcement announcement = announcementRepo.getAnnouncementById(anId);
+        if (!user.equals(announcement.getUser())){
+            throw new ForbiddenException("no access");
+        }
+        announcement.setImages(req.images());
+        announcement.setHouseType(req.houseType());
+        announcement.setMaxGuests(req.maxOfQuests());
+        announcement.setPrice(BigDecimal.valueOf(req.price()));
+        announcement.setTitle(req.title());
+        announcement.setDescription(req.description());
+        announcement.setRegion(req.region());
+        announcement.setTown(req.town());
+        announcement.setAddress(req.address());
+        return SimpleResponse.builder()
+                .httpStatus(HttpStatus.OK)
+                .message("successfully edited")
+                .build();
+    }
+    @Override
+    public SimpleResponse deleteMyAnnouncement(Long anId) {
+        User user = currentUser.getCurrenUser();
+        Announcement announcement = announcementRepo.getAnnouncementById(anId);
+        if (!user.equals(announcement.getUser())){
+            throw new ForbiddenException("no access");
+        }
+        announcementRepo.delete(announcement);
+        return SimpleResponse.builder()
+                .httpStatus(HttpStatus.OK)
+                .message("successfully deleted")
+                .build();
     }
 }
