@@ -1,5 +1,6 @@
 package enjoying.service.impl;
 
+import enjoying.dto.pagination.UserPagination;
 import enjoying.dto.request.PaginationRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
 import enjoying.dto.response.ForPagination;
@@ -7,10 +8,13 @@ import enjoying.dto.response.ResultPaginationAnnouncement;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.entities.Announcement;
 import enjoying.entities.User;
+import enjoying.enums.HouseType;
+import enjoying.enums.Region;
 import enjoying.enums.Role;
 import enjoying.exceptions.BedRequestException;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.UserRepository;
+import enjoying.repositories.jdbcTemplate.AnnouncementRepo;
 import enjoying.service.AnnouncementService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnnouncementServiceImpl implements AnnouncementService {
     private final AnnouncementRepository announcementRepo;
+    private final AnnouncementRepo repo;
     private final CurrentUser currentUser;
     private final UserRepository userRepository;
 
@@ -73,5 +78,35 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 .size(announcementPage.getTotalPages())
                 .paginations(resultPagination)
                 .build();
+    }
+
+    @Override
+    public UserPagination findAllAcceptedAnnouncement(int page, int size) {
+        return repo.findAllAnnouncement(page, size);
+    }
+
+    @Override
+    public UserPagination regionFilterAcceptedAnnouncement(int page, int size, Region region) {
+        return repo.regionFilterAcceptedAnnouncement(page, size, region);
+    }
+
+    @Override
+    public UserPagination popularAcceptedAnnouncement(int page, int size) {
+        return repo.popularAcceptedAnnouncement(page, size);
+    }
+
+    @Override
+    public UserPagination houseTypeFilterAcceptedAnnouncement(int page, int size, HouseType houseType) {
+        return repo.houseTypeFilterAcceptedAnnouncement(page, size, houseType);
+    }
+
+    @Override
+    public UserPagination highPriceAcceptedAnnouncement(int page, int size) {
+        return repo.highPriceAcceptedAnnouncement(page, size);
+    }
+
+    @Override
+    public UserPagination lowPriceAcceptedAnnouncement(int page, int size) {
+        return repo.lowPriceAcceptedAnnouncement(page, size);
     }
 }

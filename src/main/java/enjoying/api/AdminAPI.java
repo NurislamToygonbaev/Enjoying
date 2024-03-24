@@ -2,6 +2,7 @@ package enjoying.api;
 
 import enjoying.dto.pagination.UserPagination;
 import enjoying.dto.response.FindAnnouncementAdminRes;
+import enjoying.dto.response.SimpleResponse;
 import enjoying.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -27,4 +28,17 @@ public class AdminAPI {
     public FindAnnouncementAdminRes findById(@PathVariable Long anId){
         return adminService.findById(anId);
     }
+
+    @Secured("ADMIN")
+    @PostMapping("/{anId}")
+    public SimpleResponse announcementAccepted(@PathVariable Long anId){
+        return adminService.announcementAccepted(anId);
+    }
+
+    @Secured("ADMIN")
+    @PostMapping("/reject/{anId}")
+    public SimpleResponse announcementRejected(@PathVariable Long anId){
+        return adminService.announcementRejected(anId);
+    }
+
 }
