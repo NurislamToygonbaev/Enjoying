@@ -6,8 +6,8 @@ import java.util.List;
 
 @Builder
 public record AnnouncementResponses(
-        Long id,
         List<String> image,
+        Long id,
         String price,
         double rating,
         String description,
