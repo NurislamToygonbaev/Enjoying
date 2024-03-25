@@ -71,35 +71,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         return templateRepository.getAll(paginationRequest);
     }
 
-    @Override
-    public UserPagination findAllAcceptedAnnouncement(int page, int size) {
-        return repo.findAllAnnouncement(page, size);
-    }
-
-    @Override
-    public UserPagination regionFilterAcceptedAnnouncement(int page, int size, Region region) {
-        return repo.regionFilterAcceptedAnnouncement(page, size, region);
-    }
-
-    @Override
-    public UserPagination popularAcceptedAnnouncement(int page, int size) {
-        return repo.popularAcceptedAnnouncement(page, size);
-    }
-
-    @Override
-    public UserPagination houseTypeFilterAcceptedAnnouncement(int page, int size, HouseType houseType) {
-        return repo.houseTypeFilterAcceptedAnnouncement(page, size, houseType);
-    }
-
-    @Override
-    public UserPagination highPriceAcceptedAnnouncement(int page, int size) {
-        return repo.highPriceAcceptedAnnouncement(page, size);
-    }
-
-    @Override
-    public UserPagination lowPriceAcceptedAnnouncement(int page, int size) {
-        return repo.lowPriceAcceptedAnnouncement(page, size);
-    }
 
     @Override @Transactional
     public SimpleResponse editMyAnnouncement(Long anId, EditAnnouncementReq req) {

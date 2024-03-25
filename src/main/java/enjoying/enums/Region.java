@@ -1,11 +1,13 @@
 package enjoying.enums;
 
 public enum Region {
+    ALL,
     BATKEN,
-    OSH,
     JALAL_ABAD,
     NARYN,
-    TALAS,
     YSYK_KOL,
-    CHUY;
+    TALAS,
+    OSH,
+    CHUI,
+    BISHKEK
 }
