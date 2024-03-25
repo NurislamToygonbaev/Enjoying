@@ -18,10 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/announcement")
 public class AnnouncementAPI {
-    private final UserService userService;
     private final AnnouncementService announcementService;
-    private final FavoriteService favoriteService;
-    private final FeedBackService feedBackService;
     private final LikeService likeService;
     private final RentInfoService rentInfoService;
 
@@ -68,4 +65,34 @@ public class AnnouncementAPI {
         return announcementService.findByIdAnnouncement(anId);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Secured({"CLIENT", "VENDOR", "ADMIN"})
+    @GetMapping("/find-my-announcement/{anId}")
+    @Operation(description = "find active Announcements")
+    public FindMyAnnouncementByIdRes findMyAnnouncementById(@PathVariable Long anId) {
+        return announcementService.findMyAnnouncementById(anId);
+    }
 }

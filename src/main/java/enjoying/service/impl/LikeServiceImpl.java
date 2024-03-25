@@ -27,14 +27,15 @@ public class LikeServiceImpl implements LikeService {
     private final AnnouncementRepository announcementRepo;
     private final CurrentUser currentUser;
 
-    @Override @Transactional
+    @Override
+    @Transactional
     public SimpleResponse likeToFeedBack(Long feedId) {
         Long userId = currentUser.getCurrenUser().getId();
         FeedBack feedBack = feedBackRepo.getFeedBackById(feedId);
-        if (!feedBack.getLike().getLikes().contains(userId)){
+        if (!feedBack.getLike().getLikes().contains(userId)) {
             feedBack.getLike().getDisLikes().remove(userId);
             feedBack.getLike().getLikes().add(userId);
-        }else {
+        } else {
             feedBack.getLike().getLikes().remove(userId);
         }
         return SimpleResponse.builder()
@@ -43,14 +44,15 @@ public class LikeServiceImpl implements LikeService {
                 .build();
     }
 
-    @Override @Transactional
+    @Override
+    @Transactional
     public SimpleResponse disLikeToFeedBack(Long feedId) {
         Long userId = currentUser.getCurrenUser().getId();
         FeedBack feedBack = feedBackRepo.getFeedBackById(feedId);
-        if (!feedBack.getLike().getDisLikes().contains(userId)){
+        if (!feedBack.getLike().getDisLikes().contains(userId)) {
             feedBack.getLike().getLikes().remove(userId);
             feedBack.getLike().getDisLikes().add(userId);
-        }else {
+        } else {
             feedBack.getLike().getDisLikes().remove(userId);
         }
         return SimpleResponse.builder()
@@ -69,27 +71,26 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public List<PopularResponse> popularseven() {
-       List<Announcement>popularResponseList = likeRepo.popularSeven();
-       List<PopularResponse>newPopular = new ArrayList<>();
-        for (Announcement announcement: popularResponseList) {
-          PopularResponse popularResponse = PopularResponse.builder()
-                  .photo(String.valueOf(announcement.getImages()))
-                  .title(announcement.getTitle())
-                  .description(announcement.getDescription())
-                  .region(announcement.getRegion())
-                  .town(announcement.getTown())
-                  .address(announcement.getAddress())
-            .build();
-          newPopular.add(popularResponse);
-
+        List<PopularResponse> newPopular = new ArrayList<>();
+        List<Announcement> popularResponseList = likeRepo.popularSeven();
+        for (Announcement announcement : popularResponseList) {
+            PopularResponse popularResponse = PopularResponse.builder()
+                    .photo(String.valueOf(announcement.getImages()))
+                    .title(announcement.getTitle())
+                    .description(announcement.getDescription())
+                    .region(announcement.getRegion())
+                    .town(announcement.getTown())
+                    .address(announcement.getAddress())
+                    .build();
+            newPopular.add(popularResponse);
         }
         return newPopular;
     }
 
     @Override
     public List<PopularResponse> regiomAnnouncement(Region region) {
-        List<Announcement>announcements = likeRepo.regionAnnouncement(region);
-        List<PopularResponse>regionAnnouncement = new ArrayList<>();
+        List<Announcement> announcements = likeRepo.regionAnnouncement(region);
+        List<PopularResponse> regionAnnouncement = new ArrayList<>();
         for (Announcement announcement : announcements) {
             PopularResponse popularResponse = PopularResponse.builder()
                     .photo(String.valueOf(announcement.getImages()))
@@ -98,7 +99,7 @@ public class LikeServiceImpl implements LikeService {
                     .region(announcement.getRegion())
                     .town(announcement.getTown())
                     .address(announcement.getAddress())
-            .build();
+                    .build();
             regionAnnouncement.add(popularResponse);
 
         }

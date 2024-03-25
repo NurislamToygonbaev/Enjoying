@@ -18,4 +18,5 @@ public interface AnnouncementService {
     FindAnnouncementByIdRes findByIdAnnouncement(Long anId);
 
     MyAnnouncementResponses myAnnouncements(MyAnnounceRequest myAnnounceRequest);
+    FindMyAnnouncementByIdRes findMyAnnouncementById(Long anId);
 }

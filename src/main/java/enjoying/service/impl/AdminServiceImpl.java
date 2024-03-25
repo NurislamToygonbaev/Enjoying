@@ -28,7 +28,7 @@ public class AdminServiceImpl implements AdminService {
     private final AnnouncementRepository announcementRepository;
     private final UserRepository userRepo;
 
-    @Override
+//    @Override
     public UserPagination findAllAcceptedAnnouncement(int page, int size) {
         User user = currentUser.getCurrenUser();
         if (!user.getRole().equals(Role.ADMIN)){
@@ -143,7 +143,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public SimpleResponse deleteAnnouncement(Long anId) {
-        Announcement announcement = announcementRepository.getAnnouncementByIdWhereIsActiveTrue(anId);
+        Announcement announcement = announcementRepository.getAnnouncementByIdWhereIsActive(anId);
         announcementRepository.delete(announcement);
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)
