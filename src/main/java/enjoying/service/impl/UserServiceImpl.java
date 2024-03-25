@@ -6,6 +6,7 @@ import enjoying.dto.request.SignInRequest;
 import enjoying.dto.request.SignUpRequest;
 import enjoying.dto.request.UpdateRequest;
 import enjoying.dto.response.FindAllResponse;
+import enjoying.dto.response.MyProfile;
 import enjoying.dto.response.SignResponse;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.entities.Favorite;
@@ -153,4 +154,12 @@ public class UserServiceImpl implements UserService {
                 .message("Added money")
                 .build();
     }
+
+    @Override
+    public MyProfile myProfile() {
+        User user = currentUser.getCurrenUser();
+        return MyProfile.builder()
+                .name(user.getFullName())
+                .phoneNumber(user.getPhoneNumber())
+                .build();    }
 }
