@@ -24,5 +24,5 @@ public interface UserService {
 
     MyProfile myProfile();
 
-    List<DataAnnouncement> dataAnnouncement();
+
 }

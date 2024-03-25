@@ -15,6 +15,7 @@ import enjoying.exceptions.ForbiddenException;
 import enjoying.exceptions.NotFoundException;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.UserRepository;
+import enjoying.repositories.jdbcTemplate.AnnouncementRepo;
 import enjoying.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final CurrentUser currentUser;
-    private final AnnouncementRepository announcementRepository;
+//    private final AnnouncementRepo announcementRepo;
 
     private void checkEmail(String email) {
         boolean exists = userRepo.existsByEmail(email);
@@ -163,24 +164,5 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    @Override
-    public List<DataAnnouncement> dataAnnouncement() {
-        User user = currentUser.getCurrenUser();
-//        List<Announcement> announcements = new ArrayList<>();
-//        for (Announcement announcement : announcements) {
-//            DataAnnouncement.builder()
-//                    .image(String.valueOf(announcement.getImages()))
-//                    .price(announcement.getPrice())
-//                    .rating(announcement.getRating())
-//                    .title(announcement.getTitle())
-//                    .region(announcement.getRegion())
-//                    .town(announcement.getTown())
-//                    .address(announcement.getAddress())
-//                    .maxGuest(announcement.getMaxGuests())
-//                    .checkin(announcement.getRentInfos())
-//
-//            build();
-//        }
-        return announcementRepository.dataAnnouncement();
-    }
+
 }

@@ -55,12 +55,7 @@ public class UserAPI {
     public MyProfile MyProfile(){
         return userService.myProfile();
     }
-    @GetMapping("/dataAnnouncement")
-    @Operation(description = "Data Announcement")
 
-    public List<DataAnnouncement>dataAnnouncements(){
-      return   userService.dataAnnouncement();
-    }
 
 
 }

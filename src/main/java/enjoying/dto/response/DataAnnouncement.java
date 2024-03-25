@@ -5,16 +5,19 @@ import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Builder
-public record DataAnnouncement(String image,
-                               BigDecimal price,
-                               double rating,
-                               String title,
-                               Region region,
-                               String town,
-                               String address,
-                               int maxGuest,
-                               LocalDate checkin,
-                               LocalDate checkOut) {
+public record DataAnnouncement(
+        List<String> image,
+        Long id,
+        String price,
+        double rating,
+        String description,
+        Region region,
+        String town,
+        String address,
+        int maxGuest,
+        LocalDate checkin,
+        LocalDate checkOut) {
 }

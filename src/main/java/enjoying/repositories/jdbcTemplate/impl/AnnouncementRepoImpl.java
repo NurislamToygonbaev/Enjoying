@@ -2,12 +2,15 @@ package enjoying.repositories.jdbcTemplate.impl;
 
 import enjoying.dto.pagination.UserPagination;
 import enjoying.dto.response.AnnouncementResponses;
+import enjoying.dto.response.DataAnnouncement;
+import enjoying.enums.Region;
 import enjoying.repositories.jdbcTemplate.AnnouncementRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import java.sql.PreparedStatement;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,4 +51,6 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                 .responses(announcementResponses)
                 .build();
     }
+
+
 }
