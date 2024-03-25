@@ -67,23 +67,6 @@ public class LikeServiceImpl implements LikeService {
         return announcementRepo.myAnnouncements(userId);
     }
 
-    @Override
-    public List<MyAnnouncementResponses> myAnnouncementsWithHouseType(HouseType type) {
-        Long userId = currentUser.getCurrenUser().getId();
-        return announcementRepo.myAnnouncementsWIthHouseType(userId, type);
-    }
-
-    @Override
-    public List<MyAnnouncementResponses> myAnnouncementsHigh() {
-        Long userId = currentUser.getCurrenUser().getId();
-        return announcementRepo.myAnnouncementsHigh(userId);
-    }
-
-    @Override
-    public List<MyAnnouncementResponses> myAnnouncementsLow() {
-        Long userId = currentUser.getCurrenUser().getId();
-        return announcementRepo.myAnnouncementsLow(userId);
-    }
 
     @Override
     public List<PopularResponse> popularseven() {

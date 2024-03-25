@@ -18,18 +18,6 @@ public interface AnnouncementService {
 
     ResultPaginationAnnouncement getAll(PaginationRequest paginationRequest);
 
-    UserPagination findAllAcceptedAnnouncement(int page, int size);
-
-    UserPagination regionFilterAcceptedAnnouncement(int page, int size, Region region);
-
-    UserPagination popularAcceptedAnnouncement(int page, int size);
-
-    UserPagination houseTypeFilterAcceptedAnnouncement(int page, int size, HouseType houseType);
-
-    UserPagination highPriceAcceptedAnnouncement(int page, int size);
-
-    UserPagination lowPriceAcceptedAnnouncement(int page, int size);
-
     SimpleResponse editMyAnnouncement(Long anId, EditAnnouncementReq req);
 
     SimpleResponse deleteMyAnnouncement(Long anId);

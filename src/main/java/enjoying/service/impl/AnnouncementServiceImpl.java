@@ -15,11 +15,8 @@ import enjoying.exceptions.BedRequestException;
 import enjoying.exceptions.ForbiddenException;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.UserRepository;
-import enjoying.repositories.jdbcTemplate.AnnouncementRepo;
 import enjoying.service.AnnouncementService;
-import enjoying.validation.experience.ExperienceValidation;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,7 +32,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnnouncementServiceImpl implements AnnouncementService {
     private final AnnouncementRepository announcementRepo;
-    private final AnnouncementRepo repo;
     private final CurrentUser currentUser;
     private final UserRepository userRepository;
 
@@ -84,35 +80,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 .build();
     }
 
-    @Override
-    public UserPagination findAllAcceptedAnnouncement(int page, int size) {
-        return repo.findAllAnnouncement(page, size);
-    }
-
-    @Override
-    public UserPagination regionFilterAcceptedAnnouncement(int page, int size, Region region) {
-        return repo.regionFilterAcceptedAnnouncement(page, size, region);
-    }
-
-    @Override
-    public UserPagination popularAcceptedAnnouncement(int page, int size) {
-        return repo.popularAcceptedAnnouncement(page, size);
-    }
-
-    @Override
-    public UserPagination houseTypeFilterAcceptedAnnouncement(int page, int size, HouseType houseType) {
-        return repo.houseTypeFilterAcceptedAnnouncement(page, size, houseType);
-    }
-
-    @Override
-    public UserPagination highPriceAcceptedAnnouncement(int page, int size) {
-        return repo.highPriceAcceptedAnnouncement(page, size);
-    }
-
-    @Override
-    public UserPagination lowPriceAcceptedAnnouncement(int page, int size) {
-        return repo.lowPriceAcceptedAnnouncement(page, size);
-    }
 
     @Override @Transactional
     public SimpleResponse editMyAnnouncement(Long anId, EditAnnouncementReq req) {

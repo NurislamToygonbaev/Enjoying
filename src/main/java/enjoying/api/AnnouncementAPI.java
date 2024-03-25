@@ -39,57 +39,6 @@ public class AnnouncementAPI {
         return announcementService.getAll(paginationRequest);
     }
 
-    @Secured({"CLIENT", "VENDOR", "ADMIN"})
-    @GetMapping
-    @Operation(description = "FindAll active Announcements")
-    public UserPagination findAllAcceptedAnnouncement(@RequestParam int page,
-                                                      @RequestParam int size) {
-        return announcementService.findAllAcceptedAnnouncement(page, size);
-    }
-
-
-    @Secured({"CLIENT", "VENDOR", "ADMIN"})
-    @GetMapping("/region")
-    @Operation(description = "FindAll active Announcements with filter region")
-    public UserPagination regionFilterAcceptedAnnouncement(@RequestParam int page,
-                                                           @RequestParam int size,
-                                                           @RequestParam Region region) {
-        return announcementService.regionFilterAcceptedAnnouncement(page, size, region);
-    }
-
-    @Secured({"CLIENT", "VENDOR", "ADMIN"})
-    @GetMapping("/popular")
-    @Operation(description = "FindAll active popular Announcements")
-    public UserPagination popularAcceptedAnnouncement(@RequestParam int page,
-                                                      @RequestParam int size) {
-        return announcementService.popularAcceptedAnnouncement(page, size);
-    }
-
-    @Secured({"CLIENT", "VENDOR", "ADMIN"})
-    @GetMapping("/house-type")
-    @Operation(description = "FindAll active Announcements with filter region")
-    public UserPagination houseTypeFilterAcceptedAnnouncement(@RequestParam int page,
-                                                              @RequestParam int size,
-                                                              @RequestParam HouseType houseType) {
-        return announcementService.houseTypeFilterAcceptedAnnouncement(page, size, houseType);
-    }
-
-    @Secured({"CLIENT", "VENDOR", "ADMIN"})
-    @GetMapping("/high")
-    @Operation(description = "FindAll active Announcements with filter region")
-    public UserPagination highPriceAcceptedAnnouncement(@RequestParam int page,
-                                                        @RequestParam int size) {
-        return announcementService.highPriceAcceptedAnnouncement(page, size);
-    }
-
-    @Secured({"CLIENT", "VENDOR", "ADMIN"})
-    @GetMapping("/low")
-    @Operation(description = "FindAll active Announcements with filter region")
-    public UserPagination lowPriceAcceptedAnnouncement(@RequestParam int page,
-                                                       @RequestParam int size) {
-        return announcementService.lowPriceAcceptedAnnouncement(page, size);
-    }
-
     @GetMapping("/booking")
     @Operation(description = "FindAll active Announcements where i was")
     public List<AnnouncementBookingResponse> bookingAcceptedAnnouncement() {
@@ -102,23 +51,6 @@ public class AnnouncementAPI {
         return likeService.myAnnouncements();
     }
 
-    @GetMapping("/my-announcements-house-type")
-    @Operation(description = "my announcements with house type")
-    public List<MyAnnouncementResponses> myAnnouncementsWithHouseType(@RequestParam HouseType type) {
-        return likeService.myAnnouncementsWithHouseType(type);
-    }
-
-    @GetMapping("/my-announcements-high")
-    @Operation(description = "my announcements high price")
-    public List<MyAnnouncementResponses> myAnnouncementsHigh() {
-        return likeService.myAnnouncementsHigh();
-    }
-
-    @GetMapping("/my-announcements-low")
-    @Operation(description = "my announcements low price")
-    public List<MyAnnouncementResponses> myAnnouncementsLow() {
-        return likeService.myAnnouncementsLow();
-    }
 
     @PutMapping("/{anId}")
     public SimpleResponse editMyAnnouncement(@PathVariable Long anId,
