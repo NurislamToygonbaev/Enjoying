@@ -1,23 +1,18 @@
 package enjoying.service.impl;
 
-import enjoying.dto.pagination.UserPagination;
 import enjoying.dto.request.EditAnnouncementReq;
 import enjoying.dto.request.PaginationRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
-import enjoying.dto.response.ForPagination;
-import enjoying.dto.response.ResultPaginationAnnouncement;
-import enjoying.dto.response.SimpleResponse;
+import enjoying.dto.response.*;
 import enjoying.entities.Announcement;
+import enjoying.entities.FeedBack;
 import enjoying.entities.User;
-import enjoying.enums.HouseType;
-import enjoying.enums.Region;
 import enjoying.enums.Role;
 import enjoying.exceptions.BedRequestException;
 import enjoying.exceptions.ForbiddenException;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.UserRepository;
 import enjoying.repositories.jdbcTamplate.AnnouncementJDBCTemplateRepository;
-import enjoying.repositories.jdbcTamplate.AnnouncementRepo;
 import enjoying.service.AnnouncementService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +20,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AnnouncementServiceImpl implements AnnouncementService {
     private final AnnouncementRepository announcementRepo;
     private final AnnouncementJDBCTemplateRepository templateRepository;
-    private final AnnouncementRepo repo;
     private final CurrentUser currentUser;
     private final UserRepository userRepository;
 
@@ -104,6 +100,59 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)
                 .message("successfully deleted")
+                .build();
+    }
+    @Override
+    public FindAnnouncementByIdRes findByIdAnnouncement(Long anId) {
+        List<AllFeedBackResponse> responseList = new ArrayList<>();
+        Announcement announcement = announcementRepo.getAnnouncementByIdWhereIsActiveTrue(anId);
+        List<FeedBack> feedBacks = announcement.getFeedBacks();
+        for (FeedBack feedBack : feedBacks) {
+            AllFeedBackResponse backResponse = new AllFeedBackResponse(
+                    feedBack.getUser().getImage(), feedBack.getUser().getFullName(),
+                    feedBack.getCreatedAt(), feedBack.getRating(),
+                    feedBack.getDescription(), feedBack.getLike().getLikes().size(),
+                    feedBack.getLike().getDisLikes().size()
+            );
+            responseList.add(backResponse);
+        }
+        int five = 0, four = 0, three = 0, two = 0, one = 0;
+        for (FeedBack feedBack : feedBacks) {
+            if (feedBack.getRating() == 5){
+                five++;
+            }
+            if (feedBack.getRating() == 4){
+                four++;
+            }
+            if (feedBack.getRating() == 3){
+                three++;
+            }
+            if (feedBack.getRating() == 2){
+                two++;
+            }
+            if (feedBack.getRating() == 1){
+                one++;
+            }
+        }
+
+        return FindAnnouncementByIdRes.builder()
+                .images(announcement.getImages())
+                .houseType(announcement.getHouseType())
+                .guest(announcement.getMaxGuests())
+                .title(announcement.getTitle())
+                .address(announcement.getAddress())
+                .town(announcement.getTown())
+                .region(announcement.getRegion())
+                .description(announcement.getDescription())
+                .image(announcement.getUser().getImage())
+                .fullName(announcement.getUser().getFullName())
+                .email(announcement.getUser().getEmail())
+                .feedBackResponses(responseList)
+                .five(five*100 / feedBacks.size())
+                .four(four*100 / feedBacks.size())
+                .three(three*100 / feedBacks.size())
+                .two(two*100 / feedBacks.size())
+                .one(one*100 / feedBacks.size())
                 .build();
     }
 }

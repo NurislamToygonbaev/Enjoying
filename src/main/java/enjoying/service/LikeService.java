@@ -2,8 +2,10 @@ package enjoying.service;
 
 import enjoying.dto.response.AnnouncementResponses;
 import enjoying.dto.response.MyAnnouncementResponses;
+import enjoying.dto.response.PopularResponse;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.enums.HouseType;
+import enjoying.enums.Region;
 
 import java.util.List;
 
@@ -14,9 +16,7 @@ public interface LikeService {
 
     List<MyAnnouncementResponses> myAnnouncements();
 
-    List<MyAnnouncementResponses> myAnnouncementsWithHouseType(HouseType type);
+    List<PopularResponse> popularseven();
 
-    List<MyAnnouncementResponses> myAnnouncementsHigh();
-
-    List<MyAnnouncementResponses> myAnnouncementsLow();
+    List<PopularResponse> regiomAnnouncement(Region region);
 }

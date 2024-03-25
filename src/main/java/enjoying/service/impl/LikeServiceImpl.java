@@ -2,10 +2,13 @@ package enjoying.service.impl;
 
 import enjoying.dto.response.AnnouncementResponses;
 import enjoying.dto.response.MyAnnouncementResponses;
+import enjoying.dto.response.PopularResponse;
 import enjoying.dto.response.SimpleResponse;
+import enjoying.entities.Announcement;
 import enjoying.entities.FeedBack;
 import enjoying.entities.User;
 import enjoying.enums.HouseType;
+import enjoying.enums.Region;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.FeedBackRepository;
 import enjoying.repositories.LikeRepository;
@@ -15,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,21 +67,42 @@ public class LikeServiceImpl implements LikeService {
         return announcementRepo.myAnnouncements(userId);
     }
 
+
     @Override
-    public List<MyAnnouncementResponses> myAnnouncementsWithHouseType(HouseType type) {
-        Long userId = currentUser.getCurrenUser().getId();
-        return announcementRepo.myAnnouncementsWIthHouseType(userId, type);
+    public List<PopularResponse> popularseven() {
+       List<Announcement>popularResponseList = likeRepo.popularSeven();
+       List<PopularResponse>newPopular = new ArrayList<>();
+        for (Announcement announcement: popularResponseList) {
+          PopularResponse popularResponse = PopularResponse.builder()
+                  .photo(String.valueOf(announcement.getImages()))
+                  .title(announcement.getTitle())
+                  .description(announcement.getDescription())
+                  .region(announcement.getRegion())
+                  .town(announcement.getTown())
+                  .address(announcement.getAddress())
+            .build();
+          newPopular.add(popularResponse);
+
+        }
+        return newPopular;
     }
 
     @Override
-    public List<MyAnnouncementResponses> myAnnouncementsHigh() {
-        Long userId = currentUser.getCurrenUser().getId();
-        return announcementRepo.myAnnouncementsHigh(userId);
-    }
+    public List<PopularResponse> regiomAnnouncement(Region region) {
+        List<Announcement>announcements = likeRepo.regionAnnouncement(region);
+        List<PopularResponse>regionAnnouncement = new ArrayList<>();
+        for (Announcement announcement : announcements) {
+            PopularResponse popularResponse = PopularResponse.builder()
+                    .photo(String.valueOf(announcement.getImages()))
+                    .title(announcement.getTitle())
+                    .description(announcement.getDescription())
+                    .region(announcement.getRegion())
+                    .town(announcement.getTown())
+                    .address(announcement.getAddress())
+            .build();
+            regionAnnouncement.add(popularResponse);
 
-    @Override
-    public List<MyAnnouncementResponses> myAnnouncementsLow() {
-        Long userId = currentUser.getCurrenUser().getId();
-        return announcementRepo.myAnnouncementsLow(userId);
+        }
+        return regionAnnouncement;
     }
 }

@@ -12,7 +12,6 @@ import enjoying.enums.Role;
 import enjoying.exceptions.ForbiddenException;
 import enjoying.exceptions.NotFoundException;
 import enjoying.repositories.AnnouncementRepository;
-import enjoying.repositories.jdbcTamplate.AnnouncementRepo;
 import enjoying.repositories.UserRepository;
 import enjoying.service.AdminService;
 import jakarta.transaction.Transactional;
@@ -126,11 +125,19 @@ public class AdminServiceImpl implements AdminService {
     @Override @Transactional
     public SimpleResponse blockAnnouncement(Long anId) {
         Announcement announcement = announcementRepository.getAnnouncementByIdWhereIsActiveTrue(anId);
-        announcement.setBlock(true);
-        return SimpleResponse.builder()
-                .httpStatus(HttpStatus.OK)
-                .message("Blocked")
-                .build();
+        if (announcement.isBlock()){
+            announcement.setBlock(false);
+            return SimpleResponse.builder()
+                    .httpStatus(HttpStatus.OK)
+                    .message("unBlocked")
+                    .build();
+        }else {
+            announcement.setBlock(true);
+            return SimpleResponse.builder()
+                    .httpStatus(HttpStatus.OK)
+                    .message("Blocked")
+                    .build();
+        }
     }
 
     @Override

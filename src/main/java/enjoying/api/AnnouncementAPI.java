@@ -29,7 +29,7 @@ public class AnnouncementAPI {
 
     @Secured({"CLIENT", "VENDOR"})
     @PostMapping("/save")
-    public SimpleResponse save(@RequestBody @Valid SaveAnnouncementRequest saveAnnouncementRequest){
+    public SimpleResponse save(@RequestBody @Valid SaveAnnouncementRequest saveAnnouncementRequest) {
         return announcementService.save(saveAnnouncementRequest);
     }
 
@@ -39,46 +39,35 @@ public class AnnouncementAPI {
         return announcementService.getAll(paginationRequest);
     }
 
-
     @GetMapping("/booking")
     @Operation(description = "FindAll active Announcements where i was")
-    public List<AnnouncementBookingResponse> bookingAcceptedAnnouncement(){
+    public List<AnnouncementBookingResponse> bookingAcceptedAnnouncement() {
         return rentInfoService.bookingAcceptedAnnouncement();
     }
 
     @GetMapping("/my-announcements")
     @Operation(description = "my announcements")
-    public List<MyAnnouncementResponses> myAnnouncements(){
+    public List<MyAnnouncementResponses> myAnnouncements() {
         return likeService.myAnnouncements();
     }
 
-    @GetMapping("/my-announcements-house-type")
-    @Operation(description = "my announcements with house type")
-    public List<MyAnnouncementResponses> myAnnouncementsWithHouseType(@RequestParam HouseType type){
-        return likeService.myAnnouncementsWithHouseType(type);
-    }
-
-    @GetMapping("/my-announcements-high")
-    @Operation(description = "my announcements high price")
-    public List<MyAnnouncementResponses> myAnnouncementsHigh(){
-        return likeService.myAnnouncementsHigh();
-    }
-
-    @GetMapping("/my-announcements-low")
-    @Operation(description = "my announcements low price")
-    public List<MyAnnouncementResponses> myAnnouncementsLow(){
-        return likeService.myAnnouncementsLow();
-    }
 
     @PutMapping("/{anId}")
     public SimpleResponse editMyAnnouncement(@PathVariable Long anId,
-                                             @RequestBody EditAnnouncementReq req){
+                                             @RequestBody EditAnnouncementReq req) {
         return announcementService.editMyAnnouncement(anId, req);
     }
 
     @DeleteMapping("/{anId}")
-    public SimpleResponse deleteMyAnnouncement(@PathVariable Long anId){
+    public SimpleResponse deleteMyAnnouncement(@PathVariable Long anId) {
         return announcementService.deleteMyAnnouncement(anId);
+    }
+
+    @Secured({"CLIENT", "VENDOR", "ADMIN"})
+    @GetMapping("/find-announcement/{anId}")
+    @Operation(description = "find active Announcements")
+    public FindAnnouncementByIdRes findByIdAnnouncement(@PathVariable Long anId) {
+        return announcementService.findByIdAnnouncement(anId);
     }
 
 }

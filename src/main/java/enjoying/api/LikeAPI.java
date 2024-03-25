@@ -1,9 +1,15 @@
 package enjoying.api;
 
+import enjoying.dto.response.PopularResponse;
 import enjoying.dto.response.SimpleResponse;
+import enjoying.enums.Region;
 import enjoying.service.*;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,4 +31,16 @@ public class LikeAPI {
     public SimpleResponse disLikeToFeedBack(@PathVariable Long feedId){
         return likeService.disLikeToFeedBack(feedId);
     }
+
+@GetMapping("/Popular7")
+@Secured("CLIENT")
+@Operation(description = "FindAll Popular 7 Announcement")
+public List<PopularResponse> popularSeven(){
+    return likeService.popularseven();
+}
+@GetMapping("/regionAnnouncement")
+@Operation(description = "Region's Announcement")
+    public List<PopularResponse>regionAnnouncement(@RequestParam Region region){
+        return likeService.regiomAnnouncement(region);
+}
 }
