@@ -49,6 +49,7 @@ public class UserAPI {
     public SimpleResponse addMoney(@RequestBody AddMoneyRequest addMoneyRequest){
       return   userService.addMoney(addMoneyRequest);
     }
+
     @GetMapping("/myProfile")
     @Operation(description = "My Profile")
     public MyProfile MyProfile(){
