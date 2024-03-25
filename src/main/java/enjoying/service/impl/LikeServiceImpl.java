@@ -8,6 +8,7 @@ import enjoying.entities.Announcement;
 import enjoying.entities.FeedBack;
 import enjoying.entities.User;
 import enjoying.enums.HouseType;
+import enjoying.enums.Region;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.FeedBackRepository;
 import enjoying.repositories.LikeRepository;
@@ -101,5 +102,24 @@ public class LikeServiceImpl implements LikeService {
 
         }
         return newPopular;
+    }
+
+    @Override
+    public List<PopularResponse> regiomAnnouncement(Region region) {
+        List<Announcement>announcements = likeRepo.regionAnnouncement(region);
+        List<PopularResponse>regionAnnouncement = new ArrayList<>();
+        for (Announcement announcement : announcements) {
+            PopularResponse popularResponse = PopularResponse.builder()
+                    .photo(String.valueOf(announcement.getImages()))
+                    .title(announcement.getTitle())
+                    .description(announcement.getDescription())
+                    .region(announcement.getRegion())
+                    .town(announcement.getTown())
+                    .address(announcement.getAddress())
+            .build();
+            regionAnnouncement.add(popularResponse);
+
+        }
+        return regionAnnouncement;
     }
 }

@@ -7,6 +7,7 @@ import enjoying.enums.HouseType;
 import enjoying.exceptions.NotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -81,12 +82,6 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
             """)
     List<MyAnnouncementResponses> myAnnouncementsLow(Long userId);
 
-    @Query("""
-            select a from Announcement a where
-            :s in a.houseType and
-            :s in a.address and
-            :s in a.town and
-            :s in a.region
-            """)
-    List<Announcement> searchAnnouncements(String s);
+
+
 }
