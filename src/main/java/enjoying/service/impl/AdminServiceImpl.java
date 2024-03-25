@@ -128,7 +128,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public SimpleResponse deleteAnnouncement(Long anId) {
-        Announcement announcement = announcementRepository.getAnnouncementByIdWhereIsActiveTrue(anId);
+        Announcement announcement = announcementRepository.getAnnouncementByIdWhereIsActive(anId);
         announcementRepository.delete(announcement);
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)
