@@ -1,13 +1,11 @@
 package enjoying.service.impl;
 
-import enjoying.dto.response.AnnouncementResponses;
+import enjoying.dto.request.MyAnnounceRequest;
 import enjoying.dto.response.MyAnnouncementResponses;
 import enjoying.dto.response.PopularResponse;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.entities.Announcement;
 import enjoying.entities.FeedBack;
-import enjoying.entities.User;
-import enjoying.enums.HouseType;
 import enjoying.enums.Region;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.FeedBackRepository;
@@ -62,9 +60,10 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public List<MyAnnouncementResponses> myAnnouncements() {
+    public List<MyAnnouncementResponses> myAnnouncements(MyAnnounceRequest myAnnounceRequest) {
         Long userId = currentUser.getCurrenUser().getId();
-        return announcementRepo.myAnnouncements(userId);
+//        return announcementRepo.myAnnouncements(userId);
+        return null;
     }
 
 

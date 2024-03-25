@@ -1,6 +1,7 @@
 package enjoying.service.impl;
 
 import enjoying.dto.request.EditAnnouncementReq;
+import enjoying.dto.request.MyAnnounceRequest;
 import enjoying.dto.request.PaginationRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
 import enjoying.dto.response.*;
@@ -154,5 +155,10 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 .two(two*100 / feedBacks.size())
                 .one(one*100 / feedBacks.size())
                 .build();
+    }
+
+    @Override
+    public MyAnnouncementResponses myAnnouncements(MyAnnounceRequest myAnnounceRequest) {
+        return templateRepository.myAnnouncements(currentUser.getCurrenUser().getId(), myAnnounceRequest);
     }
 }

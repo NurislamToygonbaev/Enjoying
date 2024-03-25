@@ -1,12 +1,10 @@
 package enjoying.api;
 
-import enjoying.dto.pagination.UserPagination;
 import enjoying.dto.request.EditAnnouncementReq;
+import enjoying.dto.request.MyAnnounceRequest;
 import enjoying.dto.request.PaginationRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
 import enjoying.dto.response.*;
-import enjoying.enums.HouseType;
-import enjoying.enums.Region;
 import enjoying.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -39,18 +37,18 @@ public class AnnouncementAPI {
         return announcementService.getAll(paginationRequest);
     }
 
+    @Secured({"CLIENT", "VENDOR", "ADMIN"})
+    @GetMapping("/my-announcements")
+    @Operation(description = "my announcements")
+    public MyAnnouncementResponses myAnnouncements(MyAnnounceRequest myAnnounceRequest) {
+        return announcementService.myAnnouncements(myAnnounceRequest);
+    }
+
     @GetMapping("/booking")
     @Operation(description = "FindAll active Announcements where i was")
     public List<AnnouncementBookingResponse> bookingAcceptedAnnouncement() {
         return rentInfoService.bookingAcceptedAnnouncement();
     }
-
-    @GetMapping("/my-announcements")
-    @Operation(description = "my announcements")
-    public List<MyAnnouncementResponses> myAnnouncements() {
-        return likeService.myAnnouncements();
-    }
-
 
     @PutMapping("/{anId}")
     public SimpleResponse editMyAnnouncement(@PathVariable Long anId,

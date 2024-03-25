@@ -25,7 +25,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
     private final CurrentUser currentUser;
-    private final AnnouncementRepo announcementRepo;
     private final AnnouncementRepository announcementRepository;
     private final UserRepository userRepo;
 
@@ -35,7 +34,8 @@ public class AdminServiceImpl implements AdminService {
         if (!user.getRole().equals(Role.ADMIN)){
             throw new ForbiddenException("only the admin can see");
         }
-        return announcementRepo.findAllAcceptedAnnouncement(page, size);
+//        return announcementRepository.findAllAcceptedAnnouncement(page, size);
+        return null;
     }
 
     @Override
@@ -100,7 +100,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<MyAnnouncementResponses> userAnnouncements(Long userId) {
-        return announcementRepository.myAnnouncements(userId);
+//        return announcementRepository.myAnnouncements(userId);
+        return null;
     }
 
     @Override
