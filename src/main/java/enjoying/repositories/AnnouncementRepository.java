@@ -20,7 +20,7 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
                 new NotFoundException("Announcement with id: " + id + " not found"));
     }
 
-    @Query("select a from Announcement a where a.id =:anId and a.isActive = false")
+    @Query("select a from Announcement a where a.id =:anId")
     Optional<Announcement> findByIdWHereIsActive(Long anId);
 
     default Announcement getAnnouncementByIdWhereIsActive(Long anId){
@@ -35,6 +35,14 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
 
     default Announcement getAnnouncementByIdWhereIsActiveTrue(Long anId){
         return findByIdWHereIsActiveTrue(anId).orElseThrow(() ->
+                new NotFoundException("Announcement with Id: "+anId+" not found"));
+    }
+
+    @Query("select a from Announcement a where a.id =:anId and a.isBlock = false ")
+    Optional<Announcement> findByIdWHere(Long anId);
+
+    default Announcement findByIdWHereIsBlockFalse(Long anId){
+        return findByIdWHere(anId).orElseThrow(() ->
                 new NotFoundException("Announcement with Id: "+anId+" not found"));
     }
 

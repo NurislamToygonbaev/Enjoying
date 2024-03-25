@@ -64,4 +64,34 @@ public class AnnouncementAPI {
         return announcementService.findByIdAnnouncement(anId);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Secured({"CLIENT", "VENDOR", "ADMIN"})
+    @GetMapping("/find-my-announcement/{anId}")
+    @Operation(description = "find active Announcements")
+    public FindMyAnnouncementByIdRes findMyAnnouncementById(@PathVariable Long anId) {
+        return announcementService.findMyAnnouncementById(anId);
+    }
 }
