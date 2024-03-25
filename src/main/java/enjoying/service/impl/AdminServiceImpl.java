@@ -12,13 +12,13 @@ import enjoying.enums.Role;
 import enjoying.exceptions.ForbiddenException;
 import enjoying.exceptions.NotFoundException;
 import enjoying.repositories.AnnouncementRepository;
+import enjoying.repositories.jdbcTamplate.AnnouncementRepo;
 import enjoying.repositories.UserRepository;
 import enjoying.service.AdminService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 

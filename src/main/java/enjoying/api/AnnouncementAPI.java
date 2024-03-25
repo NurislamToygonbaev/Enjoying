@@ -35,7 +35,7 @@ public class AnnouncementAPI {
 
     @Secured({"CLIENT", "VENDOR"})
     @GetMapping("get-all")
-    public ResultPaginationAnnouncement paginationAnnouncements(@RequestBody PaginationRequest paginationRequest) {
+    public ResultPaginationAnnouncement paginationAnnouncements(PaginationRequest paginationRequest){
         return announcementService.getAll(paginationRequest);
     }
 

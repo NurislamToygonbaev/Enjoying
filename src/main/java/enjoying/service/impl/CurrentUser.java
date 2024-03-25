@@ -18,7 +18,7 @@ public class CurrentUser {
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
 
-//  @PostConstruct
+    @PostConstruct
     private void saveAdmin() {
         userRepo.save(User.builder()
                 .fullName("Admin")

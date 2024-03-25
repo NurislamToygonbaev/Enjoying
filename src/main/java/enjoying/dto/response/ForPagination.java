@@ -12,5 +12,5 @@ public record ForPagination(Long id,
                             String address,
                             String town,
                             Region region,
-                            String quests) {
+                            String guests) {
 }
