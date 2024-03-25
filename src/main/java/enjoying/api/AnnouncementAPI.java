@@ -1,12 +1,9 @@
 package enjoying.api;
 
-import enjoying.dto.pagination.UserPagination;
 import enjoying.dto.request.EditAnnouncementReq;
 import enjoying.dto.request.PaginationRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
 import enjoying.dto.response.*;
-import enjoying.enums.HouseType;
-import enjoying.enums.Region;
 import enjoying.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -20,10 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/announcement")
 public class AnnouncementAPI {
-    private final UserService userService;
     private final AnnouncementService announcementService;
-    private final FavoriteService favoriteService;
-    private final FeedBackService feedBackService;
     private final LikeService likeService;
     private final RentInfoService rentInfoService;
 

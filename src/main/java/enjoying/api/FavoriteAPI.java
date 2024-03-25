@@ -12,12 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/fav")
 public class FavoriteAPI {
-    private final UserService userService;
-    private final AnnouncementService announcementService;
     private final FavoriteService favoriteService;
-    private final FeedBackService feedBackService;
-    private final LikeService likeService;
-    private final RentInfoService rentInfoService;
 
     @PostMapping("/{anId}")
     public SimpleResponse likeAnnouncement(@PathVariable Long anId){
