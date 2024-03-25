@@ -29,7 +29,7 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     Optional<Announcement> findByIdWHereIsActiveTrue(Long anId);
 
     default Announcement getAnnouncementByIdWhereIsActiveTrue(Long anId){
-        return findByIdWHereIsActive(anId).orElseThrow(() ->
+        return findByIdWHereIsActiveTrue(anId).orElseThrow(() ->
                 new NotFoundException("Announcement with Id: "+anId+" not found"));
     }
 
@@ -80,4 +80,13 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
             and u.id =:userId and a.houseType =:type order by a.price asc
             """)
     List<MyAnnouncementResponses> myAnnouncementsLow(Long userId);
+
+    @Query("""
+            select a from Announcement a where
+            :s in a.houseType and
+            :s in a.address and
+            :s in a.town and
+            :s in a.region
+            """)
+    List<Announcement> searchAnnouncements(String s);
 }
