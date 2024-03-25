@@ -4,6 +4,7 @@ import enjoying.dto.request.AddMoneyRequest;
 import enjoying.dto.request.SignInRequest;
 import enjoying.dto.request.UpdateRequest;
 import enjoying.dto.response.FindAllResponse;
+import enjoying.dto.response.MyProfile;
 import enjoying.dto.response.SignResponse;
 import enjoying.dto.request.SignUpRequest;
 import enjoying.dto.response.SimpleResponse;
@@ -23,4 +24,6 @@ public interface UserService {
     SimpleResponse updateUser(UpdateRequest updateRequest);
 
     SimpleResponse addMoney(AddMoneyRequest addMoneyRequest);
+
+    MyProfile myProfile();
 }

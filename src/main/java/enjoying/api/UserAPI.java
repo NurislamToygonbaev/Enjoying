@@ -3,6 +3,7 @@ package enjoying.api;
 import enjoying.dto.request.AddMoneyRequest;
 import enjoying.dto.request.UpdateRequest;
 import enjoying.dto.response.FindAllResponse;
+import enjoying.dto.response.MyProfile;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.service.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,6 +48,11 @@ public class UserAPI {
     @Secured({"CLIENT","VENDOR"})
     public SimpleResponse addMoney(@RequestBody AddMoneyRequest addMoneyRequest){
       return   userService.addMoney(addMoneyRequest);
+    }
+    @GetMapping("/myProfile")
+    @Operation(description = "My Profile")
+    public MyProfile MyProfile(){
+        return userService.myProfile();
     }
 
 
