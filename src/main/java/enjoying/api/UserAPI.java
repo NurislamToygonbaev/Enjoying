@@ -45,11 +45,4 @@ public class UserAPI {
       return   userService.addMoney(addMoneyRequest);
     }
 
-    @GetMapping("/myProfile")
-    @Operation(description = "My Profile")
-    public MyProfile MyProfile(){
-        return userService.myProfile();
-    }
-
-
 }

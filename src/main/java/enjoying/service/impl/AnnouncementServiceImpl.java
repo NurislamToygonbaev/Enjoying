@@ -157,7 +157,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public MyAnnouncementResponses myAnnouncements(MyAnnounceRequest myAnnounceRequest) {
         return templateRepository.myAnnouncements(currentUser.getCurrenUser().getId(), myAnnounceRequest);
-
     }
     public FindMyAnnouncementByIdRes findMyAnnouncementById (Long anId){
             Announcement announcement = announcementRepo.getAnnouncementByIdWhereIsActive(anId);
