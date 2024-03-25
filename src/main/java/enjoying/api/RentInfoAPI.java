@@ -1,9 +1,14 @@
 package enjoying.api;
 
+import enjoying.dto.request.Bookingrequest;
+import enjoying.dto.response.BookingResponse;
 import enjoying.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,4 +20,13 @@ public class RentInfoAPI {
     private final FeedBackService feedBackService;
     private final LikeService likeService;
     private final RentInfoService rentInfoService;
+    @PostMapping("/BookingAnnouncement/{announcementId}")
+    @Secured("CLIENT")
+    public BookingResponse bookingResPonse(@PathVariable Long announcementId,
+                                          @RequestBody Bookingrequest bookingrequest){
+        return rentInfoService.bookingAnnouncement(announcementId,bookingrequest);
+    }
+
+
+
 }
