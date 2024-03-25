@@ -2,6 +2,7 @@ package enjoying.service;
 
 import enjoying.dto.response.AnnouncementResponses;
 import enjoying.dto.response.MyAnnouncementResponses;
+import enjoying.dto.response.PopularResponse;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.enums.HouseType;
 
@@ -19,4 +20,6 @@ public interface LikeService {
     List<MyAnnouncementResponses> myAnnouncementsHigh();
 
     List<MyAnnouncementResponses> myAnnouncementsLow();
+
+    List<PopularResponse> popularseven();
 }
