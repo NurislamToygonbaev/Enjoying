@@ -7,7 +7,7 @@ import java.util.List;
 public record ForPagination(Long id,
                             List<String> images,
                             String price,
-                            Double rating,
+                            double rating,
                             String description,
                             String address,
                             String town,

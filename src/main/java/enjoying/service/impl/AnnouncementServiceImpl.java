@@ -1,6 +1,5 @@
 package enjoying.service.impl;
 
-import enjoying.dto.pagination.UserPagination;
 import enjoying.dto.request.EditAnnouncementReq;
 import enjoying.dto.request.PaginationRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
@@ -14,7 +13,6 @@ import enjoying.exceptions.ForbiddenException;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.UserRepository;
 import enjoying.repositories.jdbcTamplate.AnnouncementJDBCTemplateRepository;
-import enjoying.repositories.jdbcTamplate.AnnouncementRepo;
 import enjoying.service.AnnouncementService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
