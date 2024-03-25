@@ -39,6 +39,8 @@ public class Announcement {
     private LocalDate updatedAt;
     private boolean isActive;
     private double rating;
+    private String reject;
+    private boolean isBlock;
 
     @OneToMany(mappedBy = "announcement")
     private List<RentInfo> rentInfos;

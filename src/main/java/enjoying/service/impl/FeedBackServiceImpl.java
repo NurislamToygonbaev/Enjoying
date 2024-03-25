@@ -4,10 +4,7 @@ import enjoying.dto.request.FeedBackSaveRequest;
 import enjoying.dto.request.FeedBackUpdateReq;
 import enjoying.dto.response.FindFeedBackResponse;
 import enjoying.dto.response.SimpleResponse;
-import enjoying.entities.Announcement;
-import enjoying.entities.FeedBack;
-import enjoying.entities.RentInfo;
-import enjoying.entities.User;
+import enjoying.entities.*;
 import enjoying.exceptions.ForbiddenException;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.FeedBackRepository;
@@ -51,10 +48,41 @@ public class FeedBackServiceImpl implements FeedBackService {
         announcement.getFeedBacks().add(feedBack);
         user.getFeedBacks().add(feedBack);
         feedBack.setUser(user);
+        Like like = new Like();
+        like.setFeedBack(feedBack);
+        feedBack.setLike(like);
+
+        double rating = announcementRating(announcement.getFeedBacks());
+        double roundedRating = Math.round(rating * 10.0) / 10.0;
+        double limitedRating = Math.min(roundedRating, 5.0);
+        announcement.setRating(limitedRating);
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)
                 .message("you have successfully written a review")
                 .build();
+    }
+    private double announcementRating(List<FeedBack> feedbacks) {
+        if (feedbacks.isEmpty()) {
+            return 0;
+        }
+
+        double sumRatings = 0;
+        for (FeedBack feedback : feedbacks) {
+            sumRatings += feedback.getRating();
+        }
+
+        double averageRating = sumRatings / feedbacks.size();
+
+        return averageRating * (5.0 / getMaxRating(feedbacks));
+    }
+    private double getMaxRating(List<FeedBack> feedbacks) {
+        double maxRating = Double.MIN_VALUE;
+        for (FeedBack feedback : feedbacks) {
+            if (feedback.getRating() > maxRating) {
+                maxRating = feedback.getRating();
+            }
+        }
+        return maxRating;
     }
 
     @Override

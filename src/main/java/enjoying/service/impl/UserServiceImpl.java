@@ -6,8 +6,10 @@ import enjoying.dto.request.SignInRequest;
 import enjoying.dto.request.SignUpRequest;
 import enjoying.dto.request.UpdateRequest;
 import enjoying.dto.response.FindAllResponse;
+import enjoying.dto.response.MyProfile;
 import enjoying.dto.response.SignResponse;
 import enjoying.dto.response.SimpleResponse;
+import enjoying.entities.Favorite;
 import enjoying.entities.User;
 import enjoying.enums.Role;
 import enjoying.exceptions.AlreadyExistsException;
@@ -43,16 +45,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public SignResponse signUpUser(SignUpRequest signUpReques) {
         checkEmail(signUpReques.getEmail());
-        final var user = userRepo.save(User.builder()
+        User user = userRepo.save(User.builder()
                 .fullName(signUpReques.getFullName())
                 .email(signUpReques.getEmail())
                 .dateOfBirth(signUpReques.getDateOfBirth())
-                        .money(BigDecimal.ZERO)
+                .money(BigDecimal.ZERO)
                 .image(signUpReques.getImage())
                 .phoneNumber(signUpReques.getPhoneNumber())
                 .password(passwordEncoder.encode(signUpReques.getPhoneNumber()))
                 .role(Role.CLIENT)
                 .build());
+        Favorite favorite = new Favorite();
+        favorite.setUser(user);
+        user.setFavorite(favorite);
 
         return SignResponse.builder()
                 .token(jwtService.createToken(user))
@@ -91,7 +96,7 @@ public class UserServiceImpl implements UserService {
                     .announcement(user.getAnnouncements().size())
                     .booking(user.getRentInfos().size())
                     .build();
-if (!user.getRole().equals(Role.ADMIN))responseList.add(response);
+            if (!user.getRole().equals(Role.ADMIN)) responseList.add(response);
 
         }
 
@@ -101,11 +106,11 @@ if (!user.getRole().equals(Role.ADMIN))responseList.add(response);
     @Override
     public SimpleResponse deleteUser(Long userId) {
         User currenUser = currentUser.getCurrenUser();
-        if (currenUser.getId().equals(userId)){
+        if (currenUser.getId().equals(userId)) {
             throw new ForbiddenException("The admin will not be able to delete himself");
         }
-        if (currenUser.getRole().equals(Role.CLIENT) ||currenUser.getRole().equals(Role.VENDOR)){
-            throw new ForbiddenException("Not acces");
+        if (currenUser.getRole().equals(Role.CLIENT) || currenUser.getRole().equals(Role.VENDOR)) {
+            throw new ForbiddenException("Not access");
         }
 
         Optional<User> optionalUser = userRepo.findById(userId);
@@ -115,7 +120,6 @@ if (!user.getRole().equals(Role.ADMIN))responseList.add(response);
             return SimpleResponse.builder()
                     .httpStatus(HttpStatus.OK)
                     .message("Deleted")
-
                     .build();
         } else {
             throw new NotFoundException("User with id: " + userId + "notFound");
@@ -133,21 +137,29 @@ if (!user.getRole().equals(Role.ADMIN))responseList.add(response);
         user.setPassword(updateRequest.password());
         user.setPhoneNumber(updateRequest.phoneNumber());
         userRepo.save(user);
-return SimpleResponse.builder().
-        httpStatus(HttpStatus.OK).message("Updated!").build();    }
+        return SimpleResponse.builder().
+                httpStatus(HttpStatus.OK).message("Updated!").build();
+    }
 
     @Override
     public SimpleResponse addMoney(AddMoneyRequest addMoneyRequest) {
         User user = currentUser.getCurrenUser();
-        if (user.getRole().equals(Role.ADMIN)){
-            throw new ForbiddenException("Not acces");
+        if (user.getRole().equals(Role.ADMIN)) {
+            throw new ForbiddenException("Not access");
         }
         user.setMoney(user.getMoney().add(BigDecimal.valueOf(addMoneyRequest.money())));
         userRepo.save(user);
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)
                 .message("Added money")
-                        .
-                build();
+                .build();
     }
+
+    @Override
+    public MyProfile myProfile() {
+        User user = currentUser.getCurrenUser();
+        return MyProfile.builder()
+                .name(user.getFullName())
+                .phoneNumber(user.getPhoneNumber())
+                .build();    }
 }
