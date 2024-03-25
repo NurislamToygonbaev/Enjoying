@@ -1,17 +1,18 @@
 package enjoying.dto.request;
 
 import enjoying.enums.HomePrice;
-import enjoying.enums.HomeType;
 import enjoying.enums.HouseType;
-import enjoying.enums.Region;
 import enjoying.validation.experience.ExperienceValidation;
 
-public record PaginationRequest(Region region,
-                                HomeType homeType,
-                                HouseType houseType,
+import java.util.List;
+
+public record MyAnnounceRequest(List<HouseType> houseTypes,
                                 HomePrice homePrice,
+                                @ExperienceValidation
+                                int rating,
                                 @ExperienceValidation
                                 int page,
                                 @ExperienceValidation
-                                int size) {
-}
+                                int size
+)
+{}

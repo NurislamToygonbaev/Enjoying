@@ -1,5 +1,6 @@
 package enjoying.service.impl;
 
+import enjoying.dto.request.MyAnnounceRequest;
 import enjoying.dto.response.MyAnnouncementResponses;
 import enjoying.dto.response.PopularResponse;
 import enjoying.dto.response.SimpleResponse;
@@ -61,9 +62,10 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public List<MyAnnouncementResponses> myAnnouncements() {
+    public List<MyAnnouncementResponses> myAnnouncements(MyAnnounceRequest myAnnounceRequest) {
         Long userId = currentUser.getCurrenUser().getId();
-        return announcementRepo.myAnnouncements(userId);
+//        return announcementRepo.myAnnouncements(userId);
+        return null;
     }
 
 

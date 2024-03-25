@@ -1,11 +1,10 @@
 package enjoying.service;
 
 import enjoying.dto.request.EditAnnouncementReq;
+import enjoying.dto.request.MyAnnounceRequest;
 import enjoying.dto.request.PaginationRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
 import enjoying.dto.response.*;
-
-import java.util.List;
 
 public interface AnnouncementService {
     SimpleResponse save(SaveAnnouncementRequest saveAnnouncementRequest);
@@ -18,5 +17,6 @@ public interface AnnouncementService {
 
     FindAnnouncementByIdRes findByIdAnnouncement(Long anId);
 
+    MyAnnouncementResponses myAnnouncements(MyAnnounceRequest myAnnounceRequest);
     FindMyAnnouncementByIdRes findMyAnnouncementById(Long anId);
 }

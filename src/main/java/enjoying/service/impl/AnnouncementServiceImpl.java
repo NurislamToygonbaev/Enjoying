@@ -1,6 +1,7 @@
 package enjoying.service.impl;
 
 import enjoying.dto.request.EditAnnouncementReq;
+import enjoying.dto.request.MyAnnounceRequest;
 import enjoying.dto.request.PaginationRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
 import enjoying.dto.response.*;
@@ -154,80 +155,83 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public FindMyAnnouncementByIdRes findMyAnnouncementById(Long anId) {
-        Announcement announcement = announcementRepo.getAnnouncementByIdWhereIsActive(anId);
-        List<FeedBack> feedBacks = announcement.getFeedBacks();
-        User user = currentUser.getCurrenUser();
-        if (!user.equals(announcement.getUser())){
-            throw new ForbiddenException("you can't see this information");
-        }
-
-        List<BookingResponse> bookingResponses = new ArrayList<>();
-        for (RentInfo rentInfo : announcement.getRentInfos()) {
-            BookingResponse bookingResponse = new BookingResponse(
-                    rentInfo.getCheckIn(), rentInfo.getCheckOut(),
-                    rentInfo.getUser().getImage(), rentInfo.getUser().getFullName(),
-                    rentInfo.getUser().getEmail()
-            );
-            bookingResponses.add(bookingResponse);
-        }
-
-        List<AllFeedBackResponse> allFeedBackResponses = feedBacks.stream()
-                .map(this::convertToFeedBack)
-                .collect(Collectors.toList());
-
-        List<FavoritesUserResponse> userResponses = new ArrayList<>();
-        for (Favorite favorite : announcement.getFavorites()) {
-            FavoritesUserResponse userResponse = new FavoritesUserResponse(
-                    favorite.getUser().getImage(), favorite.getUser().getFullName(),
-                    favorite.getUser().getEmail(), favorite.getCreatedAt()
-            );
-            userResponses.add(userResponse);
-        }
-
-        int five = 0, four = 0, three = 0, two = 0, one = 0;
-        for (FeedBack feedBack : feedBacks) {
-            if (feedBack.getRating() == 5) {
-                five++;
-            }
-            if (feedBack.getRating() == 4) {
-                four++;
-            }
-            if (feedBack.getRating() == 3) {
-                three++;
-            }
-            if (feedBack.getRating() == 2) {
-                two++;
-            }
-            if (feedBack.getRating() == 1) {
-                one++;
-            }
-        }
-
-        return FindMyAnnouncementByIdRes.builder()
-                .images(announcement.getImages())
-                .houseType(announcement.getHouseType())
-                .guest(announcement.getMaxGuests())
-                .title(announcement.getTitle())
-                .address(announcement.getAddress())
-                .town(announcement.getTown())
-                .region(announcement.getRegion())
-                .price(String.valueOf("$ " + announcement.getPrice() + " / day"))
-                .description(announcement.getDescription())
-                .image(announcement.getUser().getImage())
-                .fullName(announcement.getUser().getFullName())
-                .email(announcement.getUser().getEmail())
-                .userResponses(userResponses)
-                .bookingResponses(bookingResponses)
-                .feedBackResponses(allFeedBackResponses)
-                .five(five!=0? five * 100 / feedBacks.size() : 0)
-                .four(four!=0? four * 100 / feedBacks.size() : 0)
-                .three(three!=0? three * 100 / feedBacks.size() : 0)
-                .two(two!=0? two * 100 / feedBacks.size() : 0)
-                .one(one!=0? one * 100 / feedBacks.size() : 0)
-                .build();
+    public MyAnnouncementResponses myAnnouncements(MyAnnounceRequest myAnnounceRequest) {
+        return templateRepository.myAnnouncements(currentUser.getCurrenUser().getId(), myAnnounceRequest);
     }
+    public FindMyAnnouncementByIdRes findMyAnnouncementById (Long anId){
+            Announcement announcement = announcementRepo.getAnnouncementByIdWhereIsActive(anId);
+            List<FeedBack> feedBacks = announcement.getFeedBacks();
+            User user = currentUser.getCurrenUser();
+            if (!user.equals(announcement.getUser())) {
+                throw new ForbiddenException("you can't see this information");
+            }
 
+            List<BookingResponse> bookingResponses = new ArrayList<>();
+            for (RentInfo rentInfo : announcement.getRentInfos()) {
+                BookingResponse bookingResponse = new BookingResponse(
+                        rentInfo.getCheckIn(), rentInfo.getCheckOut(),
+                        rentInfo.getUser().getImage(), rentInfo.getUser().getFullName(),
+                        rentInfo.getUser().getEmail()
+                );
+                bookingResponses.add(bookingResponse);
+            }
+
+            List<AllFeedBackResponse> allFeedBackResponses = feedBacks.stream()
+                    .map(this::convertToFeedBack)
+                    .collect(Collectors.toList());
+
+            List<FavoritesUserResponse> userResponses = new ArrayList<>();
+            for (Favorite favorite : announcement.getFavorites()) {
+                FavoritesUserResponse userResponse = new FavoritesUserResponse(
+                        favorite.getUser().getImage(), favorite.getUser().getFullName(),
+                        favorite.getUser().getEmail(), favorite.getCreatedAt()
+                );
+                userResponses.add(userResponse);
+            }
+
+            int five = 0, four = 0, three = 0, two = 0, one = 0;
+            for (FeedBack feedBack : feedBacks) {
+                if (feedBack.getRating() == 5) {
+                    five++;
+                }
+                if (feedBack.getRating() == 4) {
+                    four++;
+                }
+                if (feedBack.getRating() == 3) {
+                    three++;
+                }
+                if (feedBack.getRating() == 2) {
+                    two++;
+                }
+                if (feedBack.getRating() == 1) {
+                    one++;
+                }
+            }
+
+            return FindMyAnnouncementByIdRes.builder()
+                    .images(announcement.getImages())
+                    .houseType(announcement.getHouseType())
+                    .guest(announcement.getMaxGuests())
+                    .title(announcement.getTitle())
+                    .address(announcement.getAddress())
+                    .town(announcement.getTown())
+                    .region(announcement.getRegion())
+                    .price(String.valueOf("$ " + announcement.getPrice() + " / day"))
+                    .description(announcement.getDescription())
+                    .image(announcement.getUser().getImage())
+                    .fullName(announcement.getUser().getFullName())
+                    .email(announcement.getUser().getEmail())
+                    .userResponses(userResponses)
+                    .bookingResponses(bookingResponses)
+                    .feedBackResponses(allFeedBackResponses)
+                    .five(five != 0 ? five * 100 / feedBacks.size() : 0)
+                    .four(four != 0 ? four * 100 / feedBacks.size() : 0)
+                    .three(three != 0 ? three * 100 / feedBacks.size() : 0)
+                    .two(two != 0 ? two * 100 / feedBacks.size() : 0)
+                    .one(one != 0 ? one * 100 / feedBacks.size() : 0)
+                    .build();
+
+    }
     private AllFeedBackResponse convertToFeedBack(FeedBack feedBack) {
         return new AllFeedBackResponse(
                 feedBack.getUser().getImage(), feedBack.getUser().getFullName(),

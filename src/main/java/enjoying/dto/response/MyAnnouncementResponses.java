@@ -1,20 +1,18 @@
 package enjoying.dto.response;
 
+import enjoying.enums.HomePrice;
+import enjoying.enums.HouseType;
 import lombok.Builder;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Builder
 public record MyAnnouncementResponses(
-        List<String> image,
-        Long id,
-        BigDecimal price,
-        double rating,
-        String description,
-        String town,
-        String address,
-        int guest,
-        int likeSize
-) {
+        String userName,
+        String contact,
+        List<HouseType> houseTypes,
+        HomePrice homePrice,
+        int ratingFromFilter,
+        List<MyAnnounceResponse>  myAnnounceResponses
+){
 }

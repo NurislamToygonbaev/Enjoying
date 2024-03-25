@@ -24,6 +24,4 @@ public interface UserService {
     SimpleResponse updateUser(UpdateRequest updateRequest);
 
     SimpleResponse addMoney(AddMoneyRequest addMoneyRequest);
-
-    MyProfile myProfile();
 }
