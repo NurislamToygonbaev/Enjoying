@@ -132,13 +132,6 @@ public class AnnouncementAPI {
     }
 
     @Secured({"CLIENT", "VENDOR", "ADMIN"})
-    @GetMapping("/search")
-    @Operation(description = "search active Announcements")
-    public List<AnnouncementResponses> searchAnnouncements(@RequestParam String keyword) {
-        return announcementService.searchAnnouncements(keyword);
-    }
-
-    @Secured({"CLIENT", "VENDOR", "ADMIN"})
     @GetMapping("/find-announcement/{anId}")
     @Operation(description = "find active Announcements")
     public FindAnnouncementByIdRes findByIdAnnouncement(@PathVariable Long anId) {

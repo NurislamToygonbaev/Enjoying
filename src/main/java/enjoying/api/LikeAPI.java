@@ -2,6 +2,7 @@ package enjoying.api;
 
 import enjoying.dto.response.PopularResponse;
 import enjoying.dto.response.SimpleResponse;
+import enjoying.enums.Region;
 import enjoying.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -36,4 +37,10 @@ public class LikeAPI {
 @Operation(description = "FindAll Popular 7 Announcement")
 public List<PopularResponse> popularSeven(){
     return likeService.popularseven();
-}}
+}
+@GetMapping("/regionAnnouncement")
+@Operation(description = "Region's Announcement")
+    public List<PopularResponse>regionAnnouncement(@RequestParam Region region){
+        return likeService.regiomAnnouncement(region);
+}
+}

@@ -148,22 +148,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 .message("successfully deleted")
                 .build();
     }
-
-    @Override
-    public List<AnnouncementResponses> searchAnnouncements(String keyword) {
-        List<AnnouncementResponses> responses = new ArrayList<>();
-        List<Announcement> announcements = announcementRepo.searchAnnouncements("%" + keyword + "%");
-        for (Announcement announcement : announcements) {
-            AnnouncementResponses ann = new AnnouncementResponses(
-                    announcement.getImages(), announcement.getId(), String.valueOf(announcement.getPrice()),
-                    announcement.getRating(), announcement.getDescription(), announcement.getTown(),
-                    announcement.getAddress(), announcement.getMaxGuests()
-            );
-            responses.add(ann);
-        }
-        return responses;
-    }
-
     @Override
     public FindAnnouncementByIdRes findByIdAnnouncement(Long anId) {
         List<AllFeedBackResponse> responseList = new ArrayList<>();

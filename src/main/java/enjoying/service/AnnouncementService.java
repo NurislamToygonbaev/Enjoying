@@ -34,7 +34,5 @@ public interface AnnouncementService {
 
     SimpleResponse deleteMyAnnouncement(Long anId);
 
-    List<AnnouncementResponses> searchAnnouncements(String keyword);
-
     FindAnnouncementByIdRes findByIdAnnouncement(Long anId);
 }
