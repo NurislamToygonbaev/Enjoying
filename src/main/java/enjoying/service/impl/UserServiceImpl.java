@@ -43,16 +43,16 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public SignResponse signUpUser(SignUpRequest signUpReques) {
-        checkEmail(signUpReques.getEmail());
+    public SignResponse signUpUser(SignUpRequest signUpRequest) {
+        checkEmail(signUpRequest.getEmail());
         User user = userRepo.save(User.builder()
-                .fullName(signUpReques.getFullName())
-                .email(signUpReques.getEmail())
-                .dateOfBirth(signUpReques.getDateOfBirth())
+                .fullName(signUpRequest.getFullName())
+                .email(signUpRequest.getEmail())
+                .dateOfBirth(signUpRequest.getDateOfBirth())
                 .money(BigDecimal.ZERO)
-                .image(signUpReques.getImage())
-                .phoneNumber(signUpReques.getPhoneNumber())
-                .password(passwordEncoder.encode(signUpReques.getPhoneNumber()))
+                .image(signUpRequest.getImage())
+                .phoneNumber(signUpRequest.getPhoneNumber())
+                .password(passwordEncoder.encode(signUpRequest.getPhoneNumber()))
                 .role(Role.CLIENT)
                 .build());
         Favorite favorite = new Favorite();

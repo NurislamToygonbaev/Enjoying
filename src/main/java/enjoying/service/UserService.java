@@ -13,7 +13,7 @@ import java.security.Principal;
 import java.util.List;
 
 public interface UserService {
-    SignResponse signUpUser(SignUpRequest signUpReques);
+    SignResponse signUpUser(SignUpRequest signUpRequest);
 
     SignResponse signIn(SignInRequest signInRequest);
 

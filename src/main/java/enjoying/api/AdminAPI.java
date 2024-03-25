@@ -46,7 +46,7 @@ public class AdminAPI {
     }
 
     @Secured("ADMIN")
-    @PostMapping("/reject/{userId}")
+    @PostMapping("/all-block/{userId}")
     public SimpleResponse announcementBlocked(@PathVariable Long userId){
         return adminService.announcementBlocked(userId);
     }

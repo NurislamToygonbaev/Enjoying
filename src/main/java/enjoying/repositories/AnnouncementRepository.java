@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +34,7 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     Optional<Announcement> findByIdWHereIsActiveTrue(Long anId);
 
     default Announcement getAnnouncementByIdWhereIsActiveTrue(Long anId){
-        return findByIdWHereIsActive(anId).orElseThrow(() ->
+        return findByIdWHereIsActiveTrue(anId).orElseThrow(() ->
                 new NotFoundException("Announcement with Id: "+anId+" not found"));
     }
 
@@ -49,39 +50,7 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
             """)
     List<MyAnnouncementResponses> myAnnouncements(Long userId);
 
-    @Query("""
-            select new enjoying.dto.response.MyAnnouncementResponses(
-            a.images, a.id, a.price, a.rating, a.description, a.town,
-             a.address, a.maxGuests, size(f.like.likes))
-            from User u
-            join u.announcements a
-            join a.feedBacks f
-            where a.isActive = true and a.isBlock = false
-            and u.id =:userId and a.houseType =:type
-            """)
-    List<MyAnnouncementResponses> myAnnouncementsWIthHouseType(Long userId, HouseType type);
 
-    @Query("""
-            select new enjoying.dto.response.MyAnnouncementResponses(
-            a.images, a.id, a.price, a.rating, a.description, a.town,
-             a.address, a.maxGuests, size(f.like.likes))
-            from User u
-            join u.announcements a
-            join a.feedBacks f
-            where a.isActive = true and a.isBlock = false
-            and u.id =:userId and a.houseType =:type order by a.price desc
-            """)
-    List<MyAnnouncementResponses> myAnnouncementsHigh(Long userId);
 
-    @Query("""
-            select new enjoying.dto.response.MyAnnouncementResponses(
-            a.images, a.id, a.price, a.rating, a.description, a.town,
-             a.address, a.maxGuests, size(f.like.likes))
-            from User u
-            join u.announcements a
-            join a.feedBacks f
-            where a.isActive = true and a.isBlock = false
-            and u.id =:userId and a.houseType =:type order by a.price asc
-            """)
-    List<MyAnnouncementResponses> myAnnouncementsLow(Long userId);
+
 }

@@ -126,11 +126,19 @@ public class AdminServiceImpl implements AdminService {
     @Override @Transactional
     public SimpleResponse blockAnnouncement(Long anId) {
         Announcement announcement = announcementRepository.getAnnouncementByIdWhereIsActiveTrue(anId);
-        announcement.setBlock(true);
-        return SimpleResponse.builder()
-                .httpStatus(HttpStatus.OK)
-                .message("Blocked")
-                .build();
+        if (announcement.isBlock()){
+            announcement.setBlock(false);
+            return SimpleResponse.builder()
+                    .httpStatus(HttpStatus.OK)
+                    .message("unBlocked")
+                    .build();
+        }else {
+            announcement.setBlock(true);
+            return SimpleResponse.builder()
+                    .httpStatus(HttpStatus.OK)
+                    .message("Blocked")
+                    .build();
+        }
     }
 
     @Override
