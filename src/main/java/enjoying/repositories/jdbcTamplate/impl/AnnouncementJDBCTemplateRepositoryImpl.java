@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -27,46 +28,32 @@ public class AnnouncementJDBCTemplateRepositoryImpl implements AnnouncementJDBCT
 
         List<ForPagination> list = jdbcTemplate.query("""
                             SELECT a.id,
-                               ai.images,
-                               concat('$ ', a.price, ' / day'),
-                               a.description,
-                               a.address,
-                               a.town,
-                               a.region,
-                               concat(a.max_guests, ' guests')
-                        FROM announcements a
-                        INNER JOIN announcement_images ai ON a.id = ai.announcement_id
-                        WHERE a.is_active = false
-                                LIMIT ? OFFSET ?
-                                        
+                                   array_agg(ai.images) AS images,
+                                   concat('$ ', a.price, ' / day'),
+                                   a.description,
+                                   a.address,
+                                   a.town,
+                                   a.region,
+                                   concat(a.max_guests, ' guests'),
+                                   a.rating
+                            FROM announcements a
+                            JOIN announcement_images ai ON a.id = ai.announcement_id
+                            WHERE a.is_active = true
+                            GROUP BY a.id, a.price, a.description, a.address, a.town, a.region, a.max_guests
+                            ORDER BY a.id desc
+                            LIMIT ? OFFSET ?
                         """,
                 new Object[]{limit, offset},
                 (rs, rowNum) -> {
-                    Region region = Region.valueOf(rs.getString(7));
-                    // Получаем массив изображений
-                    Array imagesArray = rs.getArray(2);
-                    // Если массив не null
-                    List<String> imagesList = new ArrayList<>();
-                    try {
-                        // Преобразуем массив в список строк
-                        Object[] images = (Object[]) imagesArray.getArray();
-                        for (Object image : images) {
-                            imagesList.add((String) image);
-                        }
-                    } catch (SQLException e) {
-                        // Обработка ошибок
-                        throw new SQLException();
-                    }
-                    // Создаем объект ForPagination
                     return new ForPagination(
                             rs.getLong(1),
-                            imagesList,
+                            Arrays.asList((String[]) rs.getArray("images").getArray()),
                             rs.getString(3),
-                            0.1,
+                            rs.getDouble("rating"),
                             rs.getString(4),
                             rs.getString(5),
                             rs.getString(6),
-                            region,
+                            Region.valueOf(rs.getString(7)),
                             rs.getString(8)
                     );
                 });
