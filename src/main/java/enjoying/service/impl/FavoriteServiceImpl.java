@@ -5,7 +5,10 @@ import enjoying.dto.response.SimpleResponse;
 import enjoying.entities.Announcement;
 import enjoying.entities.User;
 import enjoying.repositories.AnnouncementRepository;
+import enjoying.repositories.FavoriteRepository;
+import enjoying.repositories.UserRepository;
 import enjoying.service.FavoriteService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,8 +21,9 @@ import java.util.List;
 public class FavoriteServiceImpl implements FavoriteService {
     private final CurrentUser currentUser;
     private final AnnouncementRepository announcementRepo;
+    private final FavoriteRepository favoriteRepo;
 
-    @Override
+    @Override @Transactional
     public SimpleResponse likeAnnouncement(Long anId) {
         User user = currentUser.getCurrenUser();
         Announcement announcement = announcementRepo.getAnnouncementById(anId);
@@ -28,6 +32,7 @@ public class FavoriteServiceImpl implements FavoriteService {
         }else {
             user.getFavorite().getAnnouncements().remove(announcement);
         }
+        favoriteRepo.save(user.getFavorite());
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)
                 .message("success")

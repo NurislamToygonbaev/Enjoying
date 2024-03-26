@@ -6,15 +6,16 @@ import enjoying.dto.request.SignInRequest;
 import enjoying.dto.request.SignUpRequest;
 import enjoying.dto.request.UpdateRequest;
 import enjoying.dto.response.FindAllResponse;
-import enjoying.dto.response.MyProfile;
 import enjoying.dto.response.SignResponse;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.entities.Favorite;
+import enjoying.entities.FeedBack;
 import enjoying.entities.User;
 import enjoying.enums.Role;
 import enjoying.exceptions.AlreadyExistsException;
 import enjoying.exceptions.ForbiddenException;
 import enjoying.exceptions.NotFoundException;
+import enjoying.repositories.FavoriteRepository;
 import enjoying.repositories.UserRepository;
 import enjoying.service.UserService;
 import jakarta.transaction.Transactional;
@@ -35,6 +36,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final CurrentUser currentUser;
+    private final FavoriteRepository favoriteRepo;
 
     private void checkEmail(String email) {
         boolean exists = userRepo.existsByEmail(email);
@@ -58,6 +60,7 @@ public class UserServiceImpl implements UserService {
         Favorite favorite = new Favorite();
         favorite.setUser(user);
         user.setFavorite(favorite);
+        favoriteRepo.save(favorite);
 
         return SignResponse.builder()
                 .token(jwtService.createToken(user))
@@ -88,6 +91,10 @@ public class UserServiceImpl implements UserService {
     public List<FindAllResponse> findAll() {
         List<User> userList = userRepo.findAll();
         List<FindAllResponse> responseList = new ArrayList<>();
+        User currenUser = currentUser.getCurrenUser();
+        if (!currenUser.getRole().equals(Role.ADMIN)) {
+            throw new ForbiddenException("Not access");
+        }
 
         for (User user : userList) {
             FindAllResponse response = FindAllResponse.builder()
@@ -127,18 +134,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SimpleResponse updateUser(UpdateRequest updateRequest) {
+    public SignResponse updateUser(UpdateRequest updateRequest) {
         User user = currentUser.getCurrenUser();
         checkEmail(updateRequest.email());
         user.setFullName(updateRequest.fullName());
         user.setEmail(updateRequest.email());
         user.setImage(updateRequest.image());
         user.setDateOfBirth(updateRequest.dateOfBirth());
-        user.setPassword(updateRequest.password());
+        user.setPassword(passwordEncoder.encode(updateRequest.password()));
         user.setPhoneNumber(updateRequest.phoneNumber());
         userRepo.save(user);
-        return SimpleResponse.builder().
-                httpStatus(HttpStatus.OK).message("Updated!").build();
+        return SignResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .token(jwtService.createToken(user))
+                .httpStatus(HttpStatus.OK)
+                .message("Updated!")
+                .build();
     }
 
     @Override
@@ -153,5 +166,21 @@ public class UserServiceImpl implements UserService {
                 .httpStatus(HttpStatus.OK)
                 .message("Added money")
                 .build();
+    }
+
+    @Override
+    public SimpleResponse deleteHimSelf() {
+        User currenUser = currentUser.getCurrenUser();
+        List<FeedBack> feedBacks = currenUser.getFeedBacks();
+        for (FeedBack feedBack : feedBacks) {
+            feedBack.setUser(null);
+        }
+
+        userRepo.delete(currenUser);
+        return SimpleResponse.builder()
+                .httpStatus(HttpStatus.OK)
+                .message("Deleted")
+                .build();
+
     }
 }

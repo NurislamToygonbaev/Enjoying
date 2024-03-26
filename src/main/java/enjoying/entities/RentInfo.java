@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.DETACH;
+
 @Entity
 @Table(name = "rent_infos")
 @Getter
@@ -22,10 +24,10 @@ public class RentInfo {
     LocalDate checkIn;
     LocalDate checkOut;
 
-    @ManyToOne
+    @ManyToOne(cascade = {DETACH})
     private Announcement announcement;
 
-    @ManyToOne
+    @ManyToOne(cascade = {DETACH})
     private User user;
 
 }
