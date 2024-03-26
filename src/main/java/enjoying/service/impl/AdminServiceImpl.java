@@ -1,6 +1,5 @@
 package enjoying.service.impl;
 
-import enjoying.dto.pagination.UserPagination;
 import enjoying.dto.response.AnnouncementBookingResponse;
 import enjoying.dto.response.FindAnnouncementAdminRes;
 import enjoying.dto.response.MyAnnouncementResponses;
@@ -8,39 +7,22 @@ import enjoying.dto.response.SimpleResponse;
 import enjoying.entities.Announcement;
 import enjoying.entities.RentInfo;
 import enjoying.entities.User;
-import enjoying.enums.HouseType;
-import enjoying.enums.Role;
-import enjoying.exceptions.ForbiddenException;
 import enjoying.exceptions.NotFoundException;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.UserRepository;
-import enjoying.repositories.jdbcTemplate.AnnouncementRepo;
 import enjoying.service.AdminService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
-    private final CurrentUser currentUser;
-    private final AnnouncementRepo announcementRepo;
     private final AnnouncementRepository announcementRepository;
     private final UserRepository userRepo;
-
-    @Override
-    public UserPagination findAllAcceptedAnnouncement(int page, int size) {
-        User user = currentUser.getCurrenUser();
-        if (!user.getRole().equals(Role.ADMIN)){
-            throw new ForbiddenException("only the admin can see");
-        }
-        return announcementRepo.findAllAcceptedAnnouncement(page, size);
-    }
 
     @Override
     public FindAnnouncementAdminRes findById(Long anId) {
@@ -146,7 +128,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public SimpleResponse deleteAnnouncement(Long anId) {
-        Announcement announcement = announcementRepository.getAnnouncementByIdWhereIsActiveTrue(anId);
+        Announcement announcement = announcementRepository.getAnnouncementByIdWhereIsActive(anId);
         announcementRepository.delete(announcement);
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)

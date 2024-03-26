@@ -8,6 +8,7 @@ import enjoying.entities.*;
 import enjoying.exceptions.ForbiddenException;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.FeedBackRepository;
+import enjoying.repositories.LikeRepository;
 import enjoying.service.FeedBackService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class FeedBackServiceImpl implements FeedBackService {
     private final FeedBackRepository feedBackRepo;
     private final CurrentUser currentUser;
     private final AnnouncementRepository announcementRepo;
+    private final LikeRepository likeRepository;
 
     @Override @Transactional
     public SimpleResponse save(Long anId, FeedBackSaveRequest request) {
@@ -49,6 +51,7 @@ public class FeedBackServiceImpl implements FeedBackService {
         user.getFeedBacks().add(feedBack);
         feedBack.setUser(user);
         Like like = new Like();
+        likeRepository.save(like);
         like.setFeedBack(feedBack);
         feedBack.setLike(like);
 

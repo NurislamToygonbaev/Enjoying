@@ -5,7 +5,6 @@ import enjoying.dto.response.SimpleResponse;
 import enjoying.entities.Announcement;
 import enjoying.entities.User;
 import enjoying.repositories.AnnouncementRepository;
-import enjoying.repositories.FavoriteRepository;
 import enjoying.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class FavoriteServiceImpl implements FavoriteService {
-    private final FavoriteRepository favoriteRepo;
     private final CurrentUser currentUser;
     private final AnnouncementRepository announcementRepo;
 

@@ -2,6 +2,7 @@ package enjoying.service;
 
 import enjoying.dto.request.Bookingrequest;
 import enjoying.dto.response.AnnouncementBookingResponse;
+import enjoying.dto.response.BookingRes;
 import enjoying.dto.response.BookingResponse;
 
 import java.time.LocalDate;
@@ -11,6 +12,6 @@ public interface RentInfoService {
 
     List<AnnouncementBookingResponse> bookingAcceptedAnnouncement();
 
-    BookingResponse bookingAnnouncement(Long announcementId, Bookingrequest bookingrequest);
+    BookingRes bookingAnnouncement(Long announcementId, Bookingrequest bookingrequest);
 
 }

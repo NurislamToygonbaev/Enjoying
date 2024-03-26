@@ -13,12 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/feed_back")
 public class FeedBackAPI {
-    private final UserService userService;
-    private final AnnouncementService announcementService;
-    private final FavoriteService favoriteService;
     private final FeedBackService feedBackService;
-    private final LikeService likeService;
-    private final RentInfoService rentInfoService;
 
 
     @PostMapping("/{anId}")

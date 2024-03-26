@@ -18,11 +18,6 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserAPI {
     private final UserService userService;
-    private final AnnouncementService announcementService;
-    private final FavoriteService favoriteService;
-    private final FeedBackService feedBackService;
-    private final LikeService likeService;
-    private final RentInfoService rentInfoService;
 
     @Secured("ADMIN")
     @PostMapping

@@ -9,8 +9,6 @@ import enjoying.dto.response.SimpleResponse;
 import java.util.List;
 
 public interface AdminService {
-    UserPagination findAllAcceptedAnnouncement(int page, int size);
-
     FindAnnouncementAdminRes findById(Long anId);
 
     SimpleResponse announcementAccepted(Long anId);

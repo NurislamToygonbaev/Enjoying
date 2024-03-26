@@ -16,12 +16,6 @@ public interface LikeService {
 
     List<MyAnnouncementResponses> myAnnouncements();
 
-    List<MyAnnouncementResponses> myAnnouncementsWithHouseType(HouseType type);
-
-    List<MyAnnouncementResponses> myAnnouncementsHigh();
-
-    List<MyAnnouncementResponses> myAnnouncementsLow();
-
     List<PopularResponse> popularseven();
 
     List<PopularResponse> regiomAnnouncement(Region region);

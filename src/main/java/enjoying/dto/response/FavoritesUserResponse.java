@@ -1,13 +1,14 @@
 package enjoying.dto.response;
 
 import lombok.Builder;
+
 import java.time.LocalDate;
+
 @Builder
-public record BookingResponse(
-        LocalDate checkIn,
-        LocalDate checkOut,
+public record FavoritesUserResponse(
         String image,
         String fullName,
-        String email
+        String email,
+        LocalDate date
 ) {
 }
