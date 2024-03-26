@@ -154,12 +154,4 @@ public class UserServiceImpl implements UserService {
                 .message("Added money")
                 .build();
     }
-
-    @Override
-    public MyProfile myProfile() {
-        User user = currentUser.getCurrenUser();
-        return MyProfile.builder()
-                .name(user.getFullName())
-                .phoneNumber(user.getPhoneNumber())
-                .build();    }
 }

@@ -1,5 +1,6 @@
 package enjoying.service.impl;
 
+import enjoying.dto.pagination.UserPagination;
 import enjoying.dto.response.AnnouncementBookingResponse;
 import enjoying.dto.response.FindAnnouncementAdminRes;
 import enjoying.dto.response.MyAnnouncementResponses;
@@ -7,6 +8,8 @@ import enjoying.dto.response.SimpleResponse;
 import enjoying.entities.Announcement;
 import enjoying.entities.RentInfo;
 import enjoying.entities.User;
+import enjoying.enums.Role;
+import enjoying.exceptions.ForbiddenException;
 import enjoying.exceptions.NotFoundException;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.UserRepository;
@@ -21,8 +24,19 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
+    private final CurrentUser currentUser;
     private final AnnouncementRepository announcementRepository;
     private final UserRepository userRepo;
+
+//    @Override
+    public UserPagination findAllAcceptedAnnouncement(int page, int size) {
+        User user = currentUser.getCurrenUser();
+        if (!user.getRole().equals(Role.ADMIN)){
+            throw new ForbiddenException("only the admin can see");
+        }
+//        return announcementRepository.findAllAcceptedAnnouncement(page, size);
+        return null;
+    }
 
     @Override
     public FindAnnouncementAdminRes findById(Long anId) {
@@ -86,7 +100,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<MyAnnouncementResponses> userAnnouncements(Long userId) {
-        return announcementRepository.myAnnouncements(userId);
+//        return announcementRepository.myAnnouncements(userId);
+        return null;
     }
 
     @Override
