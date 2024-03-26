@@ -53,7 +53,7 @@ public class RentInfoServiceImpl implements RentInfoService {
         LocalDate checkin = bookingrequest.checkin();
         LocalDate checkout = bookingrequest.checkout();
         LocalDate date = LocalDate.now();
-        if ((checkin.isBefore(date) && checkout.isBefore(date))){
+        if ((checkin.isBefore(date) || checkout.isBefore(date))){
             throw new IllegalArgumentException("Booking dates cannot be in the past");
         }
 
@@ -74,13 +74,14 @@ public class RentInfoServiceImpl implements RentInfoService {
 //        if (user.getAnnouncements().contains(announcement)) {
 //            throw new BedRequestException("You have already booked");
 //        }
-        List<RentInfo> rentInfos = user.getRentInfos();
+        List<RentInfo> rentInfos = announcement.getRentInfos();
         for (RentInfo info : rentInfos) {
             LocalDate existCheckIn = info.getCheckIn();
             LocalDate existCheckOut = info.getCheckOut();
             if ((checkin.isAfter(existCheckIn) && checkin.isBefore(existCheckOut)) ||
-               (checkout.isAfter(existCheckIn) && checkout.isAfter(existCheckOut)) ||
-               (checkin.isEqual(existCheckIn) || checkout.isEqual(existCheckOut))) {
+                    (checkout.isAfter(existCheckIn) && checkout.isBefore(existCheckOut)) ||
+                    (checkin.isEqual(existCheckIn) || checkout.isEqual(existCheckOut)) ||
+                    (checkin.isBefore(existCheckIn) && checkout.isAfter(existCheckOut))) {
                 throw new BedRequestException("The apartment is already booked for these dates");
             }
         }

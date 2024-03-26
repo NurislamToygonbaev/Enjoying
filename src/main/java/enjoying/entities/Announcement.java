@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.*;
+
 @Entity
 @Table(name = "announcements")
 @Getter
@@ -42,16 +44,16 @@ public class Announcement {
     private String reject;
     private boolean isBlock;
 
-    @OneToMany(mappedBy = "announcement")
+    @OneToMany(mappedBy = "announcement", cascade = {REMOVE})
     private List<RentInfo> rentInfos;
 
-    @ManyToMany(mappedBy = "announcements")
+    @ManyToMany(mappedBy = "announcements", cascade = {REMOVE})
     private List<Favorite> favorites;
 
-    @ManyToOne
+    @ManyToOne(cascade = {DETACH})
     private User user;
 
-    @OneToMany(mappedBy = "announcement")
+    @OneToMany(mappedBy = "announcement", cascade = {REMOVE})
     private List<FeedBack> feedBacks;
 
     @PrePersist

@@ -6,6 +6,9 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.DETACH;
+import static jakarta.persistence.CascadeType.REMOVE;
+
 @Entity
 @Table(name = "feedbacks")
 @Getter
@@ -27,10 +30,10 @@ public class FeedBack {
     @ManyToOne
     private Announcement announcement;
 
-    @ManyToOne
+    @ManyToOne(cascade = {DETACH})
     private User user;
 
-    @OneToOne(mappedBy = "feedBack")
+    @OneToOne(mappedBy = "feedBack", cascade = {REMOVE})
     private Like like;
 
     @PrePersist

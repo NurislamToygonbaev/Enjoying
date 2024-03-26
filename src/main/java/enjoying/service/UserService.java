@@ -21,7 +21,9 @@ public interface UserService {
 
     SimpleResponse deleteUser(Long userId);
 
-    SimpleResponse updateUser(UpdateRequest updateRequest);
+    SignResponse updateUser(UpdateRequest updateRequest);
 
     SimpleResponse addMoney(AddMoneyRequest addMoneyRequest);
+
+    SimpleResponse deleteHimSelf();
 }
