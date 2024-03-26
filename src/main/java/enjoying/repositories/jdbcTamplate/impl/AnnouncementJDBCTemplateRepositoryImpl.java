@@ -35,8 +35,8 @@ public class AnnouncementJDBCTemplateRepositoryImpl implements AnnouncementJDBCT
         int offset = (paginationRequest.page() - 1) * paginationRequest.size(); // Вычисляем смещение
         int limit = paginationRequest.size(); // Вычисляем максимальное количество записей
         String region = "";
-        if(!paginationRequest.region().equals(Region.ALL)) region = "and a.region = '" + paginationRequest.region().toString() + "'";
-        double homeType = 0.0;
+        if(!paginationRequest.region().equals(Region.ALL)) region = "and a.region = '" + paginationRequest.region() + "'";
+        double homeType = -1;
         if(paginationRequest.homeType().equals(HomeType.POPULAR)) homeType = 3.9;
         String homePrice = "";
         if(paginationRequest.homePrice().equals(HomePrice.HIGH_TO_LOW)) homePrice = "ORDER BY a.price DESC";
@@ -136,39 +136,17 @@ public class AnnouncementJDBCTemplateRepositoryImpl implements AnnouncementJDBCT
         for (MyAnnounceResponse response : list) {
             response.setRentInfoSize(announcementRepository.getReferenceById(response.getId()).getRentInfos().size());
             response.setLikeSize(announcementRepository.getReferenceById(response.getId()).getFavorites().size());
-            lists.add(response);
+            if(response.getRating() > (double) paginationRequest.rating() - 0.1 && response.getRating() < paginationRequest.rating() + 1){
+                if(!paginationRequest.houseTypes().contains(HouseType.ALL)){
+                    for (HouseType type : paginationRequest.houseTypes()) {
+                        if(announcementRepository.getReferenceById(response.getId()).getHouseType().equals(type)){
+                            lists.add(response);
+                        }
+                    }
+                }
+                else lists.add(response);
+            }
         }
-//        List<MyAnnounceResponse> list = jdbcTemplate.query("""
-//                        SELECT a.id,
-//                               array_agg(ai.images) AS images,
-//                               concat('$ ', a.price, ' / day'),
-//                               a.rating,
-//                               a.description,
-//                               a.address,
-//                               a.town,
-//                               a.region,
-//                               concat(a.max_guests, ' guests')
-//                        FROM announcements a
-//                        JOIN announcement_images ai ON a.id = ai.announcement_id
-//                        GROUP BY a.id, a.price, a.description, a.address, a.town, a.region, a.max_guests
-//                        """ + homePrice + """
-//                            LIMIT ? OFFSET ?
-//                        """,
-//                new Object[]{limit, offset},
-//                (rs, rowNum) -> {
-//                    return MyAnnounceResponse.builder()
-//                            .id(rs.getLong(1))
-//                            .images(Arrays.asList((String[]) rs.getArray("images").getArray()))
-//                            .price(rs.getString(3))
-//                            .rating(rs.getDouble(4))
-//                            .description(rs.getString(5))
-//                            .address(rs.getString(6))
-//                            .town(rs.getString(7))
-//                            .region(Region.valueOf(rs.getString(8)))
-//                            .guest(rs.getString(9))
-//
-//                            .build();
-//                });
         return MyAnnouncementResponses.builder()
                 .userName(currenUser.getFullName())
                 .contact(currenUser.getEmail())
