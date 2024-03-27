@@ -1,8 +1,10 @@
 package enjoying.service;
 
+import enjoying.dto.pagination.ResultSearchAnnouncement;
 import enjoying.dto.request.EditAnnouncementReq;
 import enjoying.dto.request.MyAnnounceRequest;
 import enjoying.dto.request.PaginationRequest;
+import enjoying.dto.request.SearchRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
 import enjoying.dto.response.*;
 
@@ -19,4 +21,6 @@ public interface AnnouncementService {
 
     MyAnnouncementResponses myAnnouncements(MyAnnounceRequest myAnnounceRequest);
     FindMyAnnouncementByIdRes findMyAnnouncementById(Long anId);
+
+    ResultSearchAnnouncement searchAnnouncements(SearchRequest searchRequest);
 }

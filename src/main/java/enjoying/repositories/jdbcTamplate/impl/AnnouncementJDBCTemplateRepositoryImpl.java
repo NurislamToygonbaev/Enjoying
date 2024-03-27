@@ -1,7 +1,9 @@
 package enjoying.repositories.jdbcTamplate.impl;
 
+import enjoying.dto.pagination.ResultSearchAnnouncement;
 import enjoying.dto.request.MyAnnounceRequest;
 import enjoying.dto.request.PaginationRequest;
+import enjoying.dto.request.SearchRequest;
 import enjoying.dto.response.ForPagination;
 import enjoying.dto.response.MyAnnounceResponse;
 import enjoying.dto.response.MyAnnouncementResponses;
@@ -35,34 +37,35 @@ public class AnnouncementJDBCTemplateRepositoryImpl implements AnnouncementJDBCT
         int offset = (paginationRequest.page() - 1) * paginationRequest.size(); // Вычисляем смещение
         int limit = paginationRequest.size(); // Вычисляем максимальное количество записей
         String region = "";
-        if(!paginationRequest.region().equals(Region.ALL)) region = "and a.region = '" + paginationRequest.region() + "'";
+        if (!paginationRequest.region().equals(Region.ALL))
+            region = "and a.region = '" + paginationRequest.region() + "'";
         double homeType = -1;
-        if(paginationRequest.homeType().equals(HomeType.POPULAR)) homeType = 3.9;
+        if (paginationRequest.homeType().equals(HomeType.POPULAR)) homeType = 3.9;
         String homePrice = "";
-        if(paginationRequest.homePrice().equals(HomePrice.HIGH_TO_LOW)) homePrice = "ORDER BY a.price DESC";
-        if(paginationRequest.homePrice().equals(HomePrice.LOW_TO_HIGH)) homePrice = "ORDER BY a.price ASC";
+        if (paginationRequest.homePrice().equals(HomePrice.HIGH_TO_LOW)) homePrice = "ORDER BY a.price DESC";
+        if (paginationRequest.homePrice().equals(HomePrice.LOW_TO_HIGH)) homePrice = "ORDER BY a.price ASC";
         String houseType = "";
         if (paginationRequest.houseType().equals(HouseType.HOUSE)) houseType = "and a.house_type = 'HOUSE'";
         if (paginationRequest.houseType().equals(HouseType.APARTMENT)) houseType = "and a.house_type = 'APARTMENT'";
 
         List<ForPagination> list = jdbcTemplate.query("""
-                            SELECT a.id,
-                                   array_agg(ai.images) AS images,
-                                   concat('$ ', a.price, ' / day'),
-                                   a.description,
-                                   a.address,
-                                   a.town,
-                                   a.region,
-                                   concat(a.max_guests, ' guests'),
-                                   a.rating
-                            FROM announcements a
-                            JOIN announcement_images ai ON a.id = ai.announcement_id
-                            WHERE a.is_active = true and a.is_block = false
-                            """ + region + """
-                            """ + houseType + """
-                            and a.rating > ?
-                            GROUP BY a.id, a.price, a.description, a.address, a.town, a.region, a.max_guests
-                            """ + homePrice + """
+                        SELECT a.id,
+                               array_agg(ai.images) AS images,
+                               concat('$ ', a.price, ' / day'),
+                               a.description,
+                               a.address,
+                               a.town,
+                               a.region,
+                               concat(a.max_guests, ' guests'),
+                               a.rating
+                        FROM announcements a
+                        JOIN announcement_images ai ON a.id = ai.announcement_id
+                        WHERE a.is_active = true and a.is_block = false
+                        """ + region + """
+                        """ + houseType + """
+                        and a.rating > ?
+                        GROUP BY a.id, a.price, a.description, a.address, a.town, a.region, a.max_guests
+                        """ + homePrice + """
                             LIMIT ? OFFSET ?
                         """,
                 new Object[]{homeType, limit, offset},
@@ -87,7 +90,7 @@ public class AnnouncementJDBCTemplateRepositoryImpl implements AnnouncementJDBCT
                 .homePrice(paginationRequest.homePrice())
                 .page(paginationRequest.page())
                 .size(paginationRequest.size())
-                .paginations(list)
+                .pagination(list)
                 .build();
     }
 
@@ -99,8 +102,8 @@ public class AnnouncementJDBCTemplateRepositoryImpl implements AnnouncementJDBCT
         int limit = paginationRequest.size();
 
         String homePrice = "";
-        if(paginationRequest.homePrice().equals(HomePrice.HIGH_TO_LOW)) homePrice = "ORDER BY a.price DESC";
-        if(paginationRequest.homePrice().equals(HomePrice.LOW_TO_HIGH)) homePrice = "ORDER BY a.price ASC";
+        if (paginationRequest.homePrice().equals(HomePrice.HIGH_TO_LOW)) homePrice = "ORDER BY a.price DESC";
+        if (paginationRequest.homePrice().equals(HomePrice.LOW_TO_HIGH)) homePrice = "ORDER BY a.price ASC";
 
         List<MyAnnounceResponse> list = jdbcTemplate.query("""
                         SELECT a.id,
@@ -136,15 +139,14 @@ public class AnnouncementJDBCTemplateRepositoryImpl implements AnnouncementJDBCT
         for (MyAnnounceResponse response : list) {
             response.setRentInfoSize(announcementRepository.getReferenceById(response.getId()).getRentInfos().size());
             response.setLikeSize(announcementRepository.getReferenceById(response.getId()).getFavorites().size());
-            if(response.getRating() > (double) paginationRequest.rating() - 0.1 && response.getRating() < paginationRequest.rating() + 1){
-                if(!paginationRequest.houseTypes().contains(HouseType.ALL)){
+            if (response.getRating() > (double) paginationRequest.rating() - 0.1 && response.getRating() < paginationRequest.rating() + 1) {
+                if (!paginationRequest.houseTypes().contains(HouseType.ALL)) {
                     for (HouseType type : paginationRequest.houseTypes()) {
-                        if(announcementRepository.getReferenceById(response.getId()).getHouseType().equals(type)){
+                        if (announcementRepository.getReferenceById(response.getId()).getHouseType().equals(type)) {
                             lists.add(response);
                         }
                     }
-                }
-                else lists.add(response);
+                } else lists.add(response);
             }
         }
         return MyAnnouncementResponses.builder()
@@ -157,4 +159,53 @@ public class AnnouncementJDBCTemplateRepositoryImpl implements AnnouncementJDBCT
                 .build();
     }
 
+    @Override
+    public ResultSearchAnnouncement searchAnnouncements(SearchRequest searchRequest) {
+        int offset = (searchRequest.page() - 1) * searchRequest.size();
+        int limit = searchRequest.size();
+        String region = "";
+        if (!searchRequest.region().equals(Region.ALL)) region = "and a.region = '" + searchRequest.region() + "'";
+        String houseType = "";
+        if (!searchRequest.houseType().equals(HouseType.ALL)) houseType = "and a.house_type = '" + searchRequest.houseType() + "'";
+        List<ForPagination> forPaginationList = jdbcTemplate.query("""
+                    select a.id,
+                           array_agg(ai.images) AS images,
+                           concat('$ ', a.price, ' / day'),
+                           a.description,
+                           a.address,
+                           a.town,
+                           a.region,
+                           concat(a.max_guests, ' guests'),
+                           a.rating
+                    from announcements a
+                    join announcement_images ai ON a.id = ai.announcement_id
+                    where a.is_active = true and a.is_block = false
+                    """ + region + """
+                    """ + houseType + """
+                        and a.town = ?
+                        group by a.id, a.price, a.description, a.address, a.town, a.region, a.max_guests
+                        limit ? offset ?
+                    """,
+                new Object[]{searchRequest.city(), limit, offset},
+                (rs, rowNum) -> {
+                    return ForPagination.builder()
+                            .id(rs.getLong(1))
+                            .images(Arrays.asList((String[]) rs.getArray("images").getArray()))
+                            .price(rs.getString(3))
+                            .rating(Double.parseDouble(rs.getString(4))) // Преобразование строки в double
+                            .description(rs.getString(5))
+                            .address(rs.getString(6))
+                            .town(rs.getString(7))
+                            .region(Region.valueOf(rs.getString(8)))
+                            .guests(rs.getString(9))
+                            .build();
+                });
+        return ResultSearchAnnouncement.builder()
+                .region(searchRequest.region())
+                .houseType(searchRequest.houseType())
+                .page(searchRequest.page())
+                .size(searchRequest.size())
+                .pagination(forPaginationList)
+                .build();
+    }
 }
