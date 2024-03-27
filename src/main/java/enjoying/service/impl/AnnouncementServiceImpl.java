@@ -1,8 +1,10 @@
 package enjoying.service.impl;
 
+import enjoying.dto.pagination.ResultSearchAnnouncement;
 import enjoying.dto.request.EditAnnouncementReq;
 import enjoying.dto.request.MyAnnounceRequest;
 import enjoying.dto.request.PaginationRequest;
+import enjoying.dto.request.SearchRequest;
 import enjoying.dto.request.announcement.SaveAnnouncementRequest;
 import enjoying.dto.response.*;
 import enjoying.entities.*;
@@ -239,6 +241,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                     .build();
 
     }
+
+    @Override
+    public ResultSearchAnnouncement searchAnnouncements(SearchRequest searchRequest) {
+        return templateRepository.searchAnnouncements(searchRequest);
+    }
+
     private AllFeedBackResponse convertToFeedBack(FeedBack feedBack) {
         return new AllFeedBackResponse(
                 feedBack.getUser().getImage(), feedBack.getUser().getFullName(),

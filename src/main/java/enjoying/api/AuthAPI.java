@@ -1,7 +1,10 @@
 package enjoying.api;
 
+import enjoying.dto.pagination.ResultSearchAnnouncement;
+import enjoying.dto.request.SearchRequest;
 import enjoying.dto.request.SignInRequest;
 import enjoying.dto.response.PopularResponse;
+import enjoying.dto.response.ResultPaginationAnnouncement;
 import enjoying.dto.response.SignResponse;
 import enjoying.dto.request.SignUpRequest;
 import enjoying.enums.Region;
@@ -19,6 +22,7 @@ import java.util.List;
 public class AuthAPI {
     private final UserService userService;
     private final LikeService likeService;
+    private final AnnouncementService announcementService;
     @PostMapping("/SignUp")
     @Operation(description = "SignUpUser")
     public SignResponse simpleResponse(@RequestBody @Valid SignUpRequest signUpReques){
@@ -40,5 +44,13 @@ public class AuthAPI {
     public List<PopularResponse> regionAnnouncement(@RequestParam Region region) {
         return likeService.regionAnnouncement(region);
     }
+
+    @GetMapping("/search")
+    @Operation(description = "search")
+    public ResultSearchAnnouncement searchAnnouncements(SearchRequest searchRequest){
+        return announcementService.searchAnnouncements(searchRequest);
+    }
+
+
 }
 
