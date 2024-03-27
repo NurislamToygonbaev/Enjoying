@@ -1,10 +1,8 @@
 package enjoying.service;
 
 import enjoying.dto.pagination.UserPagination;
-import enjoying.dto.response.AnnouncementBookingResponse;
-import enjoying.dto.response.FindAnnouncementAdminRes;
-import enjoying.dto.response.MyAnnouncementResponses;
-import enjoying.dto.response.SimpleResponse;
+import enjoying.dto.request.UpdateRequest;
+import enjoying.dto.response.*;
 
 import java.util.List;
 
@@ -22,4 +20,6 @@ public interface AdminService {
     SimpleResponse blockAnnouncement(Long anId);
 
     SimpleResponse deleteAnnouncement(Long anId);
+
+    SignResponse updateAdmin(UpdateRequest updateRequest);
 }

@@ -84,7 +84,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         announcement.setDescription(req.description());
         announcement.setRegion(req.region());
         announcement.setTown(req.town());
+        announcement.setReject("");
         announcement.setAddress(req.address());
+        user.setMoney(BigDecimal.valueOf(user.getMoney().intValue() - 200));
+        User admin = userRepository.findByRole(Role.ADMIN);
+        admin.setMoney(BigDecimal.valueOf(admin.getMoney().intValue() + 200));
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)
                 .message("successfully edited")

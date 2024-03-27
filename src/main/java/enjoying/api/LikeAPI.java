@@ -22,25 +22,15 @@ public class LikeAPI {
     private final LikeService likeService;
     private final RentInfoService rentInfoService;
 
+    @Secured({"ADMIN", "VENDOR", "CLIENT"})
     @PostMapping("/{feedId}")
-    public SimpleResponse likeToFeedBack(@PathVariable Long feedId){
+    public SimpleResponse likeToFeedBack(@PathVariable Long feedId) {
         return likeService.likeToFeedBack(feedId);
     }
 
+    @Secured({"ADMIN", "VENDOR", "CLIENT"})
     @PostMapping("/dis-like/{feedId}")
-    public SimpleResponse disLikeToFeedBack(@PathVariable Long feedId){
+    public SimpleResponse disLikeToFeedBack(@PathVariable Long feedId) {
         return likeService.disLikeToFeedBack(feedId);
     }
-
-@GetMapping("/Popular7")
-@Secured("CLIENT")
-@Operation(description = "FindAll Popular 7 Announcement")
-public List<PopularResponse> popularSeven(){
-    return likeService.popularSeven();
-}
-@GetMapping("/regionAnnouncement")
-@Operation(description = "Region's Announcement")
-    public List<PopularResponse>regionAnnouncement(@RequestParam Region region){
-        return likeService.regionAnnouncement(region);
-}
 }

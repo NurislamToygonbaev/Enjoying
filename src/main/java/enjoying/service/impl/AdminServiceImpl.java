@@ -1,15 +1,12 @@
 package enjoying.service.impl;
 
-import enjoying.dto.pagination.UserPagination;
-import enjoying.dto.response.AnnouncementBookingResponse;
-import enjoying.dto.response.FindAnnouncementAdminRes;
-import enjoying.dto.response.MyAnnouncementResponses;
-import enjoying.dto.response.SimpleResponse;
+import enjoying.config.jwt.JwtService;
+import enjoying.dto.request.UpdateRequest;
+import enjoying.dto.response.*;
 import enjoying.entities.Announcement;
 import enjoying.entities.RentInfo;
 import enjoying.entities.User;
-import enjoying.enums.Role;
-import enjoying.exceptions.ForbiddenException;
+import enjoying.exceptions.AlreadyExistsException;
 import enjoying.exceptions.NotFoundException;
 import enjoying.repositories.AnnouncementRepository;
 import enjoying.repositories.UserRepository;
@@ -17,7 +14,10 @@ import enjoying.service.AdminService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +27,8 @@ public class AdminServiceImpl implements AdminService {
     private final CurrentUser currentUser;
     private final AnnouncementRepository announcementRepository;
     private final UserRepository userRepo;
+    private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public FindAnnouncementAdminRes findById(Long anId) {
@@ -65,7 +67,10 @@ public class AdminServiceImpl implements AdminService {
     @Override @Transactional
     public SimpleResponse announcementRejected(Long anId) {
         Announcement announcement = announcementRepository.getAnnouncementById(anId);
-        announcement.setReject("Unfortunately, we have to give up");
+        User currenUser = currentUser.getCurrenUser();
+        currenUser.setMoney(BigDecimal.valueOf(currenUser.getMoney().intValue() - 200));
+        announcement.getUser().setMoney(BigDecimal.valueOf(announcement.getUser().getMoney().intValue() + 200));
+        announcement.setReject("Unfortunately, we have to give up. Your money returned!");
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)
                 .message(announcement.getReject())
@@ -134,4 +139,28 @@ public class AdminServiceImpl implements AdminService {
                 .message("deleted")
                 .build();
     }
+
+    @Override
+    public SignResponse updateAdmin(UpdateRequest updateRequest) {
+        User user = currentUser.getCurrenUser();
+        boolean b = userRepo.existsByEmail(updateRequest.email());
+        if(b) throw new AlreadyExistsException("This email: '" + updateRequest.email() + "' already exists!");
+        user.setFullName(updateRequest.fullName());
+        user.setEmail(updateRequest.email());
+        user.setImage(updateRequest.image());
+        user.setDateOfBirth(updateRequest.dateOfBirth());
+        user.setPassword(passwordEncoder.encode(updateRequest.password()));
+        user.setPhoneNumber(updateRequest.phoneNumber());
+        userRepo.save(user);
+        return SignResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .token(jwtService.createToken(user))
+                .httpStatus(HttpStatus.OK)
+                .message("Updated!")
+                .build();
+    }
+
+
 }

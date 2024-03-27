@@ -46,7 +46,6 @@ public class UserAPI {
       return   userService.addMoney(addMoneyRequest);
     }
 
-
     @DeleteMapping("/his-self")
     public SimpleResponse deleteHisSelf() {
         return userService.deleteHimSelf();

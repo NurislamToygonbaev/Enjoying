@@ -20,7 +20,7 @@ public class RentInfoAPI {
     private final RentInfoService rentInfoService;
     @PostMapping("/BookingAnnouncement/{announcementId}")
     @Secured("CLIENT")
-    public BookingRes bookingResPonse(@PathVariable Long announcementId,
+    public BookingRes bookingResponse(@PathVariable Long announcementId,
                                       @RequestBody Bookingrequest bookingrequest){
         return ResponseEntity.ok(rentInfoService.bookingAnnouncement(announcementId,bookingrequest)).getBody();
     }

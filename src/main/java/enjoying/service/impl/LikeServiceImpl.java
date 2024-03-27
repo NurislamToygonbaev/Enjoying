@@ -1,7 +1,5 @@
 package enjoying.service.impl;
 
-import enjoying.dto.request.MyAnnounceRequest;
-import enjoying.dto.response.MyAnnouncementResponses;
 import enjoying.dto.response.PopularResponse;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.entities.Announcement;
