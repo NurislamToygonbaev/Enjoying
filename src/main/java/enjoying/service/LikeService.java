@@ -1,7 +1,5 @@
 package enjoying.service;
 
-import enjoying.dto.request.MyAnnounceRequest;
-import enjoying.dto.response.MyAnnouncementResponses;
 import enjoying.dto.response.PopularResponse;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.enums.Region;
@@ -13,9 +11,8 @@ public interface LikeService {
 
     SimpleResponse disLikeToFeedBack(Long feedId);
 
-    List<MyAnnouncementResponses> myAnnouncements(MyAnnounceRequest myAnnounceRequest);
 
-    List<PopularResponse> popularseven();
+    List<PopularResponse> popularSeven();
 
-    List<PopularResponse> regiomAnnouncement(Region region);
+    List<PopularResponse> regionAnnouncement(Region region);
 }

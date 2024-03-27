@@ -98,10 +98,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         if (!user.equals(announcement.getUser())) {
             throw new ForbiddenException("no access");
         }
-//        List<RentInfo> rentInfos = announcement.getRentInfos();
-//        for (RentInfo rentInfo : rentInfos) {
-//            rentInfo.setAnnouncement(null);
-//        }
 
         announcementRepo.delete(announcement);
         return SimpleResponse.builder()

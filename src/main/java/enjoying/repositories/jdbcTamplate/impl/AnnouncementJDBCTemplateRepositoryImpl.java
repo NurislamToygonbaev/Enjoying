@@ -95,8 +95,8 @@ public class AnnouncementJDBCTemplateRepositoryImpl implements AnnouncementJDBCT
     public MyAnnouncementResponses myAnnouncements(Long userId, MyAnnounceRequest paginationRequest) {
         User currenUser = currentUser.getCurrenUser();
 
-        int offset = (paginationRequest.page() - 1) * paginationRequest.size(); // Вычисляем смещение
-        int limit = paginationRequest.size(); // Вычисляем максимальное количество записей
+        int offset = (paginationRequest.page() - 1) * paginationRequest.size();
+        int limit = paginationRequest.size();
 
         String homePrice = "";
         if(paginationRequest.homePrice().equals(HomePrice.HIGH_TO_LOW)) homePrice = "ORDER BY a.price DESC";

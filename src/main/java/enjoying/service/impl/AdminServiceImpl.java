@@ -28,16 +28,6 @@ public class AdminServiceImpl implements AdminService {
     private final AnnouncementRepository announcementRepository;
     private final UserRepository userRepo;
 
-//    @Override
-    public UserPagination findAllAcceptedAnnouncement(int page, int size) {
-        User user = currentUser.getCurrenUser();
-        if (!user.getRole().equals(Role.ADMIN)){
-            throw new ForbiddenException("only the admin can see");
-        }
-//        return announcementRepository.findAllAcceptedAnnouncement(page, size);
-        return null;
-    }
-
     @Override
     public FindAnnouncementAdminRes findById(Long anId) {
         Announcement announcement = announcementRepository.getAnnouncementByIdWhereIsActive(anId);
@@ -96,12 +86,6 @@ public class AdminServiceImpl implements AdminService {
                 .httpStatus(HttpStatus.OK)
                 .message("Blocked")
                 .build();
-    }
-
-    @Override
-    public List<MyAnnouncementResponses> userAnnouncements(Long userId) {
-//        return announcementRepository.myAnnouncements(userId);
-        return null;
     }
 
     @Override

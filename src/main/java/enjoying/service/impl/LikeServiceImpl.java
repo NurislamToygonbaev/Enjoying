@@ -61,16 +61,9 @@ public class LikeServiceImpl implements LikeService {
                 .build();
     }
 
-    @Override
-    public List<MyAnnouncementResponses> myAnnouncements(MyAnnounceRequest myAnnounceRequest) {
-        Long userId = currentUser.getCurrenUser().getId();
-//        return announcementRepo.myAnnouncements(userId);
-        return null;
-    }
-
 
     @Override
-    public List<PopularResponse> popularseven() {
+    public List<PopularResponse> popularSeven() {
         List<PopularResponse> newPopular = new ArrayList<>();
         List<Announcement> popularResponseList = likeRepo.popularSeven();
         for (Announcement announcement : popularResponseList) {
@@ -88,7 +81,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public List<PopularResponse> regiomAnnouncement(Region region) {
+    public List<PopularResponse> regionAnnouncement(Region region) {
         List<Announcement> announcements = likeRepo.regionAnnouncement(region);
         List<PopularResponse> regionAnnouncement = new ArrayList<>();
         for (Announcement announcement : announcements) {
