@@ -70,10 +70,7 @@ public class RentInfoServiceImpl implements RentInfoService {
         if (user.getMoney().compareTo(summa) < 0) {
             throw new BedRequestException("not enough funds");
         }
-//        if (announcement.isActive()) {
-//        if (user.getAnnouncements().contains(announcement)) {
-//            throw new BedRequestException("You have already booked");
-//        }
+
         List<RentInfo> rentInfos = announcement.getRentInfos();
         for (RentInfo info : rentInfos) {
             LocalDate existCheckIn = info.getCheckIn();
@@ -102,7 +99,6 @@ public class RentInfoServiceImpl implements RentInfoService {
 
         announcement.getUser().setMoney(a);
 
-//        }
         return ResponseEntity.ok(BookingRes.builder()
                         .httpStatus(HttpStatus.OK)
                         .message("Successfully booked")

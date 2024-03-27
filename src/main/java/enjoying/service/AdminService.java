@@ -17,8 +17,6 @@ public interface AdminService {
 
     SimpleResponse announcementBlocked(Long userId);
 
-    List<MyAnnouncementResponses> userAnnouncements(Long userId);
-
     List<AnnouncementBookingResponse> bookingAnnouncementByUser(Long userId);
 
     SimpleResponse blockAnnouncement(Long anId);

@@ -36,11 +36,11 @@ public class LikeAPI {
 @Secured("CLIENT")
 @Operation(description = "FindAll Popular 7 Announcement")
 public List<PopularResponse> popularSeven(){
-    return likeService.popularseven();
+    return likeService.popularSeven();
 }
 @GetMapping("/regionAnnouncement")
 @Operation(description = "Region's Announcement")
     public List<PopularResponse>regionAnnouncement(@RequestParam Region region){
-        return likeService.regiomAnnouncement(region);
+        return likeService.regionAnnouncement(region);
 }
 }

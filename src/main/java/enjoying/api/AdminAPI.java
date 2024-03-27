@@ -40,11 +40,6 @@ public class AdminAPI {
         return adminService.announcementBlocked(userId);
     }
 
-    @Secured("ADMIN")
-    @GetMapping("/user-announcements/{userId}")
-    public List<MyAnnouncementResponses> userAnnouncements(@PathVariable Long userId){
-        return adminService.userAnnouncements(userId);
-    }
 
     @Secured("ADMIN")
     @GetMapping("/booking/{userId}")

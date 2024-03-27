@@ -93,8 +93,6 @@ public class CurrentUser {
     }
 
     public User getCurrenUser() {
-//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-//        return userRepo.getByEmail(email);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return userRepo.getByEmail(email);
