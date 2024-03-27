@@ -125,7 +125,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override @Transactional
     public SimpleResponse blockAnnouncement(Long anId) {
-        Announcement announcement = announcementRepository.getAnnouncementByIdWhereIsActiveTrue(anId);
+        Announcement announcement = announcementRepository.getAnnouncementById(anId);
         if (announcement.isBlock()){
             announcement.setBlock(false);
             return SimpleResponse.builder()

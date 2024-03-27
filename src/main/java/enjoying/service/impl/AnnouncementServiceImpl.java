@@ -98,6 +98,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         if (!user.equals(announcement.getUser())) {
             throw new ForbiddenException("no access");
         }
+//        List<RentInfo> rentInfos = announcement.getRentInfos();
+//        for (RentInfo rentInfo : rentInfos) {
+//            rentInfo.setAnnouncement(null);
+//        }
+
         announcementRepo.delete(announcement);
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)
@@ -146,6 +151,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 .fullName(announcement.getUser().getFullName())
                 .email(announcement.getUser().getEmail())
                 .feedBackResponses(allFeedBackResponses)
+                .rating(announcement.getRating())
                 .five(five!=0? five * 100 / feedBacks.size() : 0)
                 .four(four!=0? four * 100 / feedBacks.size() : 0)
                 .three(three!=0? three * 100 / feedBacks.size() : 0)
@@ -224,6 +230,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                     .userResponses(userResponses)
                     .bookingResponses(bookingResponses)
                     .feedBackResponses(allFeedBackResponses)
+                    .rating(announcement.getRating())
                     .five(five != 0 ? five * 100 / feedBacks.size() : 0)
                     .four(four != 0 ? four * 100 / feedBacks.size() : 0)
                     .three(three != 0 ? three * 100 / feedBacks.size() : 0)

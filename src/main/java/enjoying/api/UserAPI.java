@@ -4,6 +4,7 @@ import enjoying.dto.request.AddMoneyRequest;
 import enjoying.dto.request.UpdateRequest;
 import enjoying.dto.response.FindAllResponse;
 import enjoying.dto.response.MyProfile;
+import enjoying.dto.response.SignResponse;
 import enjoying.dto.response.SimpleResponse;
 import enjoying.service.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,7 +36,7 @@ public class UserAPI {
     @PutMapping
     @Operation(description = "Update user")
     @Secured({"CLIENT", "VENDOR"})
-    public SimpleResponse updateUser(@RequestBody UpdateRequest updateRequest) {
+    public SignResponse updateUser(@RequestBody UpdateRequest updateRequest) {
         return userService.updateUser(updateRequest);
     }
     @PostMapping("/addMoney")
@@ -45,4 +46,9 @@ public class UserAPI {
       return   userService.addMoney(addMoneyRequest);
     }
 
+
+    @DeleteMapping("/his-self")
+    public SimpleResponse deleteHisSelf() {
+        return userService.deleteHimSelf();
+    }
 }

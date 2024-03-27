@@ -35,16 +35,16 @@ public class User implements UserDetails {
     private Role role;
     private BigDecimal money;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = {REMOVE})
     private Favorite favorite;
 
     @OneToMany(mappedBy = "user", cascade = {REMOVE, MERGE})
     private List<Announcement> announcements;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {REMOVE})
     private List<RentInfo> rentInfos;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {DETACH})
     private List<FeedBack> feedBacks;
 
     @Override
