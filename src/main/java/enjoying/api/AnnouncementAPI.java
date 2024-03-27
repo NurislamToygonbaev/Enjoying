@@ -19,7 +19,6 @@ import java.util.List;
 @RequestMapping("/api/announcement")
 public class AnnouncementAPI {
     private final AnnouncementService announcementService;
-    private final LikeService likeService;
     private final RentInfoService rentInfoService;
 
     @Secured({"CLIENT", "VENDOR"})
@@ -41,18 +40,20 @@ public class AnnouncementAPI {
         return announcementService.myAnnouncements(myAnnounceRequest);
     }
 
+    @Secured({"ADMIN", "VENDOR", "CLIENT"})
     @GetMapping("/booking")
     @Operation(description = "FindAll active Announcements where i was")
     public List<AnnouncementBookingResponse> bookingAcceptedAnnouncement() {
         return rentInfoService.bookingAcceptedAnnouncement();
     }
-
+    @Secured({"ADMIN", "VENDOR"})
     @PutMapping("/{anId}")
     public SimpleResponse editMyAnnouncement(@PathVariable Long anId,
                                              @RequestBody EditAnnouncementReq req) {
         return announcementService.editMyAnnouncement(anId, req);
     }
 
+    @Secured({"ADMIN", "VENDOR"})
     @DeleteMapping("/{anId}")
     public SimpleResponse deleteMyAnnouncement(@PathVariable Long anId) {
         return announcementService.deleteMyAnnouncement(anId);
@@ -64,30 +65,6 @@ public class AnnouncementAPI {
     public FindAnnouncementByIdRes findByIdAnnouncement(@PathVariable Long anId) {
         return announcementService.findByIdAnnouncement(anId);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Secured({"CLIENT", "VENDOR", "ADMIN"})
     @GetMapping("/find-my-announcement/{anId}")

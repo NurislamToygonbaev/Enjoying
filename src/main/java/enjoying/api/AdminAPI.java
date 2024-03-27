@@ -1,10 +1,9 @@
 package enjoying.api;
 
-import enjoying.dto.response.AnnouncementBookingResponse;
-import enjoying.dto.response.FindAnnouncementAdminRes;
-import enjoying.dto.response.MyAnnouncementResponses;
-import enjoying.dto.response.SimpleResponse;
+import enjoying.dto.request.UpdateRequest;
+import enjoying.dto.response.*;
 import enjoying.service.AdminService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -57,5 +56,12 @@ public class AdminAPI {
     @DeleteMapping("/delete/{anId}")
     public SimpleResponse deleteAnnouncement(@PathVariable Long anId){
         return adminService.deleteAnnouncement(anId);
+    }
+
+    @PutMapping("/update")
+    @Operation(description = "Update admin")
+    @Secured({"ADMIN"})
+    public SignResponse updateAdmin(@RequestBody UpdateRequest updateRequest) {
+        return adminService.updateAdmin(updateRequest);
     }
 }
