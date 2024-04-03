@@ -23,7 +23,7 @@ public class CurrentUser {
     private final PasswordEncoder passwordEncoder;
     private final FavoriteRepository favoriteRepo;
 
-//    @PostConstruct
+    @PostConstruct
     private void saveAdmin() {
         User admin = userRepo.save(User.builder()
                 .fullName("Admin")
